@@ -46,7 +46,7 @@
       \ 'colorscheme': 'lightline_solarized',
       \ 'active': {
       \ 'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'buffertag' ], ],
-      \ 'right': [ [ 'lineinfo', 'syntastic' ], [ 'fileinfo' ], [ 'filetype' ], ],
+      \ 'right': [ [ 'lineinfo', 'syntaxcheck' ], [ 'fileinfo' ], [ 'filetype' ], ],
       \ },
       \ 'inactive': {
       \ 'left': [ [ 'filename' ], ],
@@ -59,7 +59,6 @@
       \ 'component_expand': {
       \ 'buffercurrent': 'lightline#buffer#buffercurrent2',
       \ 'bufferall': 'lightline#buffer#bufferall',
-      \ 'syntastic': 'lightline#buffer#syntastic',
       \ },
       \ 'component_type': {
       \ 'buffercurrent': 'tabsel',
@@ -77,6 +76,7 @@
       \ 'filetype': 'LightlineFiletype',
       \ 'fileencoding': 'LightlineFileencoding',
       \ 'mode': 'LightlineMode',
+      \ 'syntaxcheck': 'LightlineSyntaxcheck',
       \ },
       \ 'component': {
       \ 'lineinfo': '%3p%% %3l:%-2v',
@@ -129,8 +129,8 @@
       \ 'Untracked' : '*',
       \ 'Renamed'   : '>',
       \ 'Unmerged'  : '=',
-      \ 'Deleted'   : '-',
-      \ 'Dirty'     : 'x',
+      \ 'Deleted'   : 'x',
+      \ 'Dirty'     : '!',
       \ 'Clean'     : 'v',
       \ 'Unknown'   : '?'
       \ }
@@ -144,6 +144,11 @@
   let g:vimfiler_file_icon = ' '
   let g:vimfiler_marked_file_icon = '*'
   "endif
+
+  " ale
+  let g:ale_statusline_format = ['x %d', '! %d', 'ok']
+  let g:ale_sign_error = 'x'
+  let g:ale_sign_warning = '!'
 
   " syntastic
   let g:syntastic_error_symbol = 'x'

@@ -62,6 +62,8 @@
   let g:lightline_buffer_ellipsis_icon = '..' " '…'
   let g:lightline_buffer_expand_left_icon = '◀ '  " '… '
   let g:lightline_buffer_expand_right_icon = ' ▶' " ' …'
+  let g:lightline_buffer_progress_icon = '░'
+  let g:lightline_buffer_wait_animate = '⠇⠏⠋⠙⠹⠸⠼⠴⠦⠧'
 
   " :help tabline
   " tabline use "%1T" for the first label, "%2T" for the second one, etc. use "%T" for ending. use "%X" items for closing labels
@@ -72,7 +74,7 @@
       \ 'colorscheme': 'lightline_solarized',
       \ 'active': {
       \ 'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], [ 'buffertag' ], ],
-      \ 'right': [ [ 'lineinfo', 'syntastic' ], [ 'fileinfo' ], [ 'filetype' ], ],
+      \ 'right': [ [ 'lineinfo', 'syntaxcheck' ], [ 'fileinfo' ], [ 'filetype' ], ],
       \ },
       \ 'inactive': {
       \ 'left': [ [ 'filename' ], ],
@@ -85,7 +87,6 @@
       \ 'component_expand': {
       \ 'buffercurrent': 'lightline#buffer#buffercurrent2',
       \ 'bufferall': 'lightline#buffer#bufferall',
-      \ 'syntastic': 'lightline#buffer#syntastic',
       \ },
       \ 'component_type': {
       \ 'buffercurrent': 'tabsel',
@@ -103,6 +104,7 @@
       \ 'filetype': 'LightlineFiletype',
       \ 'fileencoding': 'LightlineFileencoding',
       \ 'mode': 'LightlineMode',
+      \ 'syntaxcheck': 'LightlineSyntaxcheck',
       \ },
       \ 'component': {
       \ 'lineinfo': '%3p%% %3l:%-2v',
@@ -201,7 +203,7 @@
       \ 'Renamed'   : '➜',
       \ 'Unmerged'  : '═',
       \ 'Deleted'   : '✖',
-      \ 'Dirty'     : '✗',
+      \ 'Dirty'     : '⚠',
       \ 'Clean'     : '✔︎',
       \ 'Unknown'   : '?'
       \ }
@@ -216,10 +218,15 @@
   let g:vimfiler_marked_file_icon = '★'
   "endif
 
+  " ale
+  let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '✔︎']
+  let g:ale_sign_error = '⨉'
+  let g:ale_sign_warning = '⚠'
+
   " syntastic
-  let g:syntastic_error_symbol = '✗'
+  let g:syntastic_error_symbol = '⨉'
   let g:syntastic_style_error_symbol = '✠'
-  let g:syntastic_warning_symbol = '∆'
+  let g:syntastic_warning_symbol = '⚠'
   let g:syntastic_style_warning_symbol = '≈'
 
   " signify

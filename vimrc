@@ -28,6 +28,7 @@
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'solarized'
   let s:settings.autocomplete_plugin = 'none'
+  let s:settings.syntaxcheck_plugin = 'none'
   if g:nvim_settings.autocomplete != 0
     if s:is_neovim && has('python3')
       let s:settings.autocomplete_plugin = 'deoplete'
@@ -39,6 +40,13 @@
       let s:settings.autocomplete_plugin = 'neocomplete'
     else
       let s:settings.autocomplete_plugin = 'neocomplcache'
+    endif
+  endif
+  if g:nvim_settings.syntaxcheck != 0
+    if s:is_neovim || (v:version >= 800)
+      let s:settings.syntaxcheck_plugin = 'ale'
+    else
+      let s:settings.syntaxcheck_plugin = 'syntastic'
     endif
   endif
   let s:settings.powerline_fonts = 0
@@ -99,6 +107,9 @@
   set nocompatible
   set all& "reset everything to their defaults
   set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+  if s:settings.syntaxcheck_plugin ==# 'ale'
+    set runtimepath+=~/.config/nvim/bundle/repos/github.com/w0rp/ale
+  endif
   call dein#begin(expand('~/.config/nvim/bundle'))
   call dein#add('Shougo/dein.vim')
   call dein#local('~/.config/nvim/bundle_dev')
@@ -347,7 +358,9 @@
           let g:airline#extensions#tabline#buffer_nr_format = '%s '
           let g:airline#extensions#tabline#fnamecollapse = 1
           let g:airline#extensions#tabline#fnametruncate = 12
-          let g:airline#extensions#syntastic#enabled = 1
+          if s:settings.syntaxcheck_plugin ==# 'syntastic'
+            let g:airline#extensions#syntastic#enabled = 1
+          endif
         "}}}
         call dein#add('vim-airline/vim-airline-themes')
       "endif "}}}
@@ -375,8 +388,13 @@
           return line
         endfunction
 
-        function! LightlineSyntastic()
-          return SyntasticStatuslineFlag()
+        function! LightlineSyntaxcheck()
+          if s:settings.syntaxcheck_plugin ==# 'ale'
+            return ALEGetStatusLine()
+          elseif s:settings.syntaxcheck_plugin ==# 'syntastic'
+            return SyntasticStatuslineFlag()
+          endif
+          return ''
         endfunction
 
         function! LightlineModified()
@@ -475,8 +493,12 @@
           autocmd BufWritePost *.c,*.cpp call s:syntastic()
         augroup END
         function! s:syntastic()
-          SyntasticCheck
-          call lightline#update()
+          if s:settings.syntaxcheck_plugin ==# 'syntastic'
+            SyntasticCheck
+          endif
+          if s:settings.statusline_plugin ==# 'lightline'
+            call lightline#update()
+          endif
         endfunction
 
         " disable overwriting the statusline forcibly by other plugins
@@ -904,10 +926,11 @@
     ""}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'unite') "{{{
-    "if has('nvim') || (v:version >= 800) "{{{
+    "if s:is_neovim || (v:version >= 800) "{{{
       "call dein#add('Shougo/denite.nvim') "{{{
       "}}}
-    "else
+    "}}}
+    "else "{{{
     function! s:on_unite_source() abort
       call unite#filters#matcher_default#use(['matcher_fuzzy'])
       call unite#filters#sorter_default#use(['sorter_rank'])
@@ -1097,9 +1120,15 @@
           \ 'dir',
           \ ]
     "}}}
-    call dein#add('scrooloose/syntastic') "{{{
-      " run `:SyntasticCheck` to check syntax
+    if s:settings.syntaxcheck_plugin ==# 'ale' "{{{
+      call dein#add('w0rp/ale') "{{{
+      "}}}
     "}}}
+    elseif s:settings.syntaxcheck_plugin ==# 'syntastic' "{{{
+      call dein#add('vim-syntastic/syntastic') "{{{
+        " run `:SyntasticCheck` to check syntax
+      "}}}
+    endif "}}}
     call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim', 'on_cmd': 'Gist'}) "{{{
       let g:gist_post_private = 1
       let g:gist_show_privates = 1

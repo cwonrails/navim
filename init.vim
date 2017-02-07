@@ -7,7 +7,7 @@
   endif
 
 " }}}
-"
+
 " General "{{{
 " ---------------------------------------------------------------------
 " General settings
@@ -45,6 +45,7 @@
 
   " plugins
   let g:nvim_settings.autocomplete = 1
+  let g:nvim_settings.syntaxcheck = 1
   let g:nvim_settings.explorer_plugin = 'nerdtree'
   "let g:nvim_settings.explorer_plugin = 'vimfiler'
   let g:nvim_settings.statusline_plugin = 'airline'
