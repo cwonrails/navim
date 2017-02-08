@@ -22,35 +22,16 @@
   let s:settings = {}
   let s:settings.encoding = 'utf-8'
   let s:settings.default_indent = 2
-  let s:settings.max_column = 120
-  let s:settings.explorer_plugin = 'nerdtree'
-  let s:settings.statusline_plugin = 'airline'
+  let s:settings.max_column = 80
   let s:settings.enable_cursorcolumn = 0
   let s:settings.colorscheme = 'solarized'
-  let s:settings.autocomplete_plugin = 'none'
-  let s:settings.syntaxcheck_plugin = 'none'
-  if g:nvim_settings.autocomplete != 0
-    if s:is_neovim && has('python3')
-      let s:settings.autocomplete_plugin = 'deoplete'
-    elseif (has('python3') || has('python')) &&
-        \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_core.so")) &&
-        \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_client_support.so"))
-      let s:settings.autocomplete_plugin = 'ycm'
-    elseif has('lua')
-      let s:settings.autocomplete_plugin = 'neocomplete'
-    else
-      let s:settings.autocomplete_plugin = 'neocomplcache'
-    endif
-  endif
-  if g:nvim_settings.syntaxcheck != 0
-    if s:is_neovim || (v:version >= 800)
-      let s:settings.syntaxcheck_plugin = 'ale'
-    else
-      let s:settings.syntaxcheck_plugin = 'syntastic'
-    endif
-  endif
   let s:settings.powerline_fonts = 0
   let s:settings.nerd_fonts = 0
+  let s:settings.explorer_plugin = 'nerdtree'
+  let s:settings.statusline_plugin = 'airline'
+  let s:settings.autocomplete_plugin = 'none'
+  let s:settings.syntaxcheck_plugin = 'none'
+  let s:settings.fonts_plugin = 'none'
 
   if exists('g:nvim_settings.plugin_groups')
     let s:settings.plugin_groups = g:nvim_settings.plugin_groups
@@ -101,6 +82,35 @@
       let s:settings[key] = g:nvim_settings[key]
     endif
   endfor
+
+  " choose plugin
+  if g:nvim_settings.autocomplete != 0 "{{{
+    if s:is_neovim && has('python3')
+      let s:settings.autocomplete_plugin = 'deoplete'
+    elseif (has('python3') || has('python')) &&
+        \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_core.so")) &&
+        \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_client_support.so"))
+      let s:settings.autocomplete_plugin = 'ycm'
+    elseif has('lua')
+      let s:settings.autocomplete_plugin = 'neocomplete'
+    else
+      let s:settings.autocomplete_plugin = 'neocomplcache'
+    endif
+  endif "}}}
+
+  if g:nvim_settings.syntaxcheck != 0 "{{{
+    if s:is_neovim || (v:version >= 800)
+      let s:settings.syntaxcheck_plugin = 'ale'
+    else
+      let s:settings.syntaxcheck_plugin = 'syntastic'
+    endif
+  endif "}}}
+
+  if s:settings.nerd_fonts != 0 && s:settings.encoding ==# 'utf-8' &&
+      \ has('multi_byte') && has('unix') && &encoding ==# 'utf-8' &&
+      \ (empty(&termencoding) || &termencoding ==# 'utf-8') "{{{
+      let s:settings.fonts_plugin = 'vim-devicons'
+  endif "}}}
 "}}}
 
 " setup & dein {{{
@@ -398,7 +408,8 @@
         endfunction
 
         function! LightlineModified()
-          return &ft =~? 'help' ? '' : &modified ? g:lightline_buffer_modified_icon : &modifiable ? '' : '-'
+          return &ft =~? 'help' ? '' : &modified ?
+              \ g:lightline_buffer_modified_icon : &modifiable ? '' : '-'
         endfunction
 
         function! LightlineReadonly()
@@ -414,6 +425,10 @@
         endfunction
 
         function! LightlineFileinfo()
+          if exists('*WebDevIconsGetFileFormatSymbol')  " support for vim-devicons
+            return LightlineFileencoding() . ' ' .
+                \ WebDevIconsGetFileFormatSymbol()
+          endif
           return LightlineFileencoding() . ' ' . LightlineFileformat()
         endfunction
 
@@ -435,6 +450,10 @@
         endfunction
 
         function! LightlineFiletype()
+          if exists('*WebDevIconsGetFileTypeSymbol')  " support for vim-devicons
+            return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' .
+                \ WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+          endif
           return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
         endfunction
 
@@ -458,7 +477,8 @@
         function! CtrlPMark()
           if expand('%:t') =~# 'ControlP'
             call lightline#link('iR'[g:lightline.ctrlp_regex])
-            return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item, g:lightline.ctrlp_next], 0)
+            return lightline#concatenate([g:lightline.ctrlp_prev,
+                \ g:lightline.ctrlp_item, g:lightline.ctrlp_next], 0)
           else
             return ''
           endif
@@ -1059,11 +1079,10 @@
     call dein#add('lucapette/vim-textobj-underscore')
   endif "}}}
   if count(s:settings.plugin_groups, 'misc') "{{{
-    if s:settings.nerd_fonts != 0 && s:settings.encoding ==# 'utf-8' &&
-        \ has('multi_byte') && has('unix') && &encoding ==# 'utf-8' &&
-        \ (empty(&termencoding) || &termencoding ==# 'utf-8') "{{{
+    if s:settings.fonts_plugin ==# 'vim-devicons'
       call dein#add('ryanoasis/vim-devicons')
-    endif "}}}
+      "let g:WebDevIconsOS = 'Darwin'
+    endif
     call dein#add('xolox/vim-misc')
     call dein#add('xolox/vim-session') "{{{
       let g:session_directory = s:get_cache_dir('sessions')
