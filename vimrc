@@ -425,11 +425,8 @@
         endfunction
 
         function! LightlineFileinfo()
-          if exists('*WebDevIconsGetFileFormatSymbol')  " support for vim-devicons
-            return LightlineFileencoding() . ' ' .
-                \ WebDevIconsGetFileFormatSymbol()
-          endif
-          return LightlineFileencoding() . ' ' . LightlineFileformat()
+          return winwidth(0) > 70 ?
+              \ (LightlineFileencoding() . ' ' . LightlineFileformat()) : ''
         endfunction
 
         function! LightlineFilename()
@@ -446,7 +443,10 @@
         endfunction
 
         function! LightlineFileformat()
-          return winwidth(0) > 70 ? &fileformat : ''
+          if exists('*WebDevIconsGetFileFormatSymbol')  " support for vim-devicons
+            return WebDevIconsGetFileFormatSymbol()
+          endif
+          return &fileformat
         endfunction
 
         function! LightlineFiletype()
@@ -458,7 +458,7 @@
         endfunction
 
         function! LightlineFileencoding()
-          return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+          return strlen(&fenc) ? &fenc : &enc
         endfunction
 
         function! LightlineMode()
