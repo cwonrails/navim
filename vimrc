@@ -1082,6 +1082,7 @@
     if s:settings.fonts_plugin ==# 'vim-devicons'
       call dein#add('ryanoasis/vim-devicons')
       "let g:WebDevIconsOS = 'Darwin'
+      call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
     endif
     call dein#add('xolox/vim-misc')
     call dein#add('xolox/vim-session') "{{{
