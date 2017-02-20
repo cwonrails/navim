@@ -17,7 +17,7 @@ A full-blown IDE based on Neovim (or Vim 8) with better navigation.
 
 ## Keymapping
 
-You don't need to remember any keymapping, because navigation guides will show up immediately after pressing the leader key (`<Space>` by default).
+You don't need to remember any keymapping, as navigation bar will show up immediately after the leader key (`<Space>` by default) is pressed.
 
 `<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`.
 
@@ -57,6 +57,12 @@ Startup vim and [dein](https://github.com/Shougo/dein.vim) will detect and ask y
 ## Advanced Settings
 
 It is completely customisable using a `~/.navimrc` file. Just copy `.navimrc.sample` to `~/.navimrc` and modify anything.
+
+Plugins are nicely organised in layers. There are many ready-to-use layers (javascript, navigation, scm, web, etc.) and you can add your own ones.
+
+Private layers can be added to `private_layers/`. And Private plugins can be added to `private_bundle/`. The content of these two directory is ignored by Git.
+
+Modify `g:navim_settings.layers` and `let g:navim_settings.additional_plugins` in `~/.navimrc` to include new layers or plugins.
 
 After restart Neovim (or Vim 8), run `call dein#clear_state() || call dein#update()` to apply changes.
 
