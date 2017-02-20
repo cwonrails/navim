@@ -11,7 +11,7 @@
 
   " characters for displaying in list mode
   if &termencoding ==# 'utf-8' || &encoding ==# 'utf-8'
-    "if g:nvim_settings.powerline_fonts == 1
+    "if g:navim_settings.powerline_fonts == 1
       set listchars=extends:>,precedes:<,tab:▶\ ,trail:•
     "else
     " set listchars=extends:>,precedes:<,tab:►\ ,trail:•
@@ -27,7 +27,7 @@
 
   " airline
   "if !empty(glob("vim-airline"))
-  if g:nvim_settings.powerline_fonts == 1
+  if g:navim_settings.powerline_fonts == 1
     let g:airline_left_sep = ''
     let g:airline_left_alt_sep = ''
     let g:airline_right_sep = ''
@@ -148,7 +148,7 @@
       "\ 'subseparator': { 'left': '', 'right': '' },
       "\ 'tabline_separator': { 'left': '', 'right': '' },
       "\ 'tabline_subseparator': { 'left': '', 'right': '' },
-  if g:nvim_settings.powerline_fonts == 1
+  if g:navim_settings.powerline_fonts == 1
     let g:lightline.separator.left = "\uE0B0"
     let g:lightline.subseparator.left = "\uE0B1"
     let g:lightline.separator.right = "\uE0B2"
