@@ -17,7 +17,7 @@ A full-blown IDE based on Neovim (or Vim 8) with better navigation.
 
 ## Keymapping
 
-You don't need to remember any keymapping, because navigation guides will show up immediately after pressing the leader key (<Space> by default).
+You don't need to remember any keymapping, because navigation guides will show up immediately after pressing the leader key (`<Space>` by default).
 
 `<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`.
 
