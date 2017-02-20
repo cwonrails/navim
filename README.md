@@ -23,7 +23,7 @@ You don't need to remember any keymapping, because navigation guides will show u
 
 ![Navim Keymapping](http://taohex.github.io/navim/images/navim_keymapping.png)
 
-As shown, keymapping is carefully-chosen.
+As shown, keymapping is carefully-chosen. More keymapping is listed here.
 
 Keymapping          | Description
 --------------------|------------------------------------------------------------
