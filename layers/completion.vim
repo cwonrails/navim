@@ -16,7 +16,7 @@ if g:navim_settings.completion_plugin ==# 'ycm' "{{{
     let g:UltiSnipsExpandTrigger = "<Tab>"
     let g:UltiSnipsJumpForwardTrigger = "<Tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
-    let g:UltiSnipsSnippetsDir = '~/.vim/snippets'
+    let g:UltiSnipsSnippetsDir = '~/.config/nvim/snippets'
   "}}}
 else
   call dein#add('Shougo/neosnippet-snippets')
