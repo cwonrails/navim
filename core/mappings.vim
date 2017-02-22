@@ -195,8 +195,6 @@
 
   inoremap <C-u> <C-g>u<C-u>
 
-  nnoremap <Space>sgf :vimgrep //gj **/*<Left><Left><Left><Left><Left><Left><Left><Left>
-
   " sane regex {{{
     nnoremap / /\v
     vnoremap / /\v
@@ -262,7 +260,7 @@
   let g:lmap =  {}
   let g:llmap = {}
 
-  nnoremap <silent> <SID>key-mappings :<C-u>Unite -auto-resize -buffer-name=mappings mapping<CR>
+  nnoremap <silent> <SID>key-mappings :<C-u>Unite -toggle -auto-resize -buffer-name=mappings mapping<CR>
   nmap <Leader>? <SID>key-mappings
 
   nnoremap <silent> <SID>last-buffer :buffer#<CR>
@@ -298,11 +296,16 @@
 
     let g:lmap.b = { 'name' : '+buffers' }
 
-    nnoremap <silent> <SID>unite-quick-match-buffer :<C-u>Unite -quick-match buffer<CR>
+    nnoremap <silent> <SID>unite-quick-match-buffer :<C-u>Unite -toggle -auto-resize -quick-match buffer<CR>
     nmap <Leader>bm <SID>unite-quick-match-buffer
 
-    nnoremap <silent> <SID>unite-buffer :<C-u>Unite -auto-resize -buffer-name=buffers buffer file_mru<CR>
-    nmap <Leader>bb <SID>unite-buffer
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-buffer :<C-u>Denite -toggle -auto-resize -buffer-name=buffers buffer file_mru<CR>
+      nmap <Leader>bb <SID>denite-buffer
+    elseif dein#is_sourced('unite.vim')
+      nnoremap <silent> <SID>unite-buffer :<C-u>Unite -toggle -auto-resize -buffer-name=buffers buffer file_mru<CR>
+      nmap <Leader>bb <SID>unite-buffer
+    endif
 
     let g:lmap.b.k = { 'name' : '+buffer-kill' }
 
@@ -363,26 +366,41 @@
 
     let g:lmap.f = { 'name' : '+files' }
 
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-file :<C-u>Denite -toggle -auto-resize -buffer-name=files file_rec<CR><C-u>
+      nmap <Leader>ff <SID>denite-file
+    elseif dein#is_sourced('unite.vim')
+      if g:navim_platform_windows
+        nnoremap <silent> <SID>unite-file :<C-u>Unite -toggle -auto-resize -buffer-name=files file:!<CR><C-u>
+      else
+        nnoremap <silent> <SID>unite-file :<C-u>Unite -toggle -auto-resize -buffer-name=files file/async:!<CR><C-u>
+      endif
+      nmap <Leader>ff <SID>unite-file
+    endif
+
     if dein#is_sourced('neomru.vim')
       " -auto-preview
-      if g:navim_platform_windows
-        nnoremap <silent> <SID>unite-mixed :<C-u>Unite -toggle -auto-resize -buffer-name=mixed buffer file:! file_mru bookmark<CR><C-u>
-      else
-        nnoremap <silent> <SID>unite-mixed :<C-u>Unite -toggle -auto-resize -buffer-name=mixed buffer file/async:! file_mru bookmark<CR><C-u>
+      if dein#is_sourced('denite.nvim')
+        nnoremap <silent> <SID>denite-mixed :<C-u>Denite -toggle -auto-resize -buffer-name=mixed buffer file_rec file_mru bookmark<CR><C-u>
+        nmap <Leader>fm <SID>denite-mixed
+      elseif dein#is_sourced('unite.vim')
+        if g:navim_platform_windows
+          nnoremap <silent> <SID>unite-mixed :<C-u>Unite -toggle -auto-resize -buffer-name=mixed buffer file:! file_mru bookmark<CR><C-u>
+        else
+          nnoremap <silent> <SID>unite-mixed :<C-u>Unite -toggle -auto-resize -buffer-name=mixed buffer file/async:! file_mru bookmark<CR><C-u>
+        endif
+        nmap <Leader>fm <SID>unite-mixed
       endif
-      nmap <Leader>fm <SID>unite-mixed
     endif
-
-    if g:navim_platform_windows
-      nnoremap <silent> <SID>unite-file :<C-u>Unite -toggle -auto-resize -buffer-name=files file:!<CR><C-u>
-    else
-      nnoremap <silent> <SID>unite-file :<C-u>Unite -toggle -auto-resize -buffer-name=files file/async:!<CR><C-u>
-    endif
-    nmap <Leader>ff <SID>unite-file
 
     if dein#is_sourced('neomru.vim')
-      nnoremap <silent> <SID>unite-mru :<C-u>Unite -buffer-name=recent file_mru<CR>
-      nmap <Leader>fr <SID>unite-mru
+      if dein#is_sourced('denite.nvim')
+        nnoremap <silent> <SID>denite-mru :<C-u>Denite -toggle -auto-resize -buffer-name=recent file_mru<CR>
+        nmap <Leader>fr <SID>denite-mru
+      elseif dein#is_sourced('unite.vim')
+        nnoremap <silent> <SID>unite-mru :<C-u>Unite -toggle -auto-resize -buffer-name=recent file_mru<CR>
+        nmap <Leader>fr <SID>unite-mru
+      endif
     endif
 
     if dein#is_sourced('nerdtree') "{{{
@@ -443,49 +461,54 @@
     let g:lmap.s = { 'name' : '+search/symbol' }
 
     " search current word in current directory
-    nnoremap <SID>vimgrep-word-directory :execute "vimgrep /" .
+    nnoremap <SID>grep-word-in-directory :execute "vimgrep /" .
         \ expand("<cword>") . "/j **/*"<CR>:copen<CR>
-    nmap <Leader>sd <SID>vimgrep-word-directory
+    nmap <Leader>sd <SID>grep-word-in-directory
 
     " search the selected text in current directory
-    vnoremap <SID>vimgrep-directory :call <SID>VisualSelection('directory')<CR>
-    vmap <Leader>sd <SID>vimgrep-directory
+    vnoremap <SID>grep-in-directory :call <SID>VisualSelection('directory')<CR>
+    vmap <Leader>sd <SID>grep-in-directory
 
     " search current word in current file
-    nnoremap <SID>vimgrep-word-file :execute "vimgrep /" .
+    nnoremap <SID>grep-word-in-file :execute "vimgrep /" .
         \ expand("<cword>") . "/j %"<CR>:copen<CR>
-    nmap <Leader>sf <SID>vimgrep-word-file
+    nmap <Leader>sf <SID>grep-word-in-file
 
     " search the selected text in current directory
-    vnoremap <SID>vimgrep-file :call <SID>VisualSelection('file')<CR>
-    vmap <Leader>sf <SID>vimgrep-file
-
-    " repeat last search
-    nnoremap <SID>vimgrep-last :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
-    nmap <Leader>sl <SID>vimgrep-last
-
-    " replace specific content
-    nnoremap <SID>replace :%s/\<<C-r>=expand("<cword>")<CR>\>/<C-r>=expand("<cword>")<CR>
-    nmap <Leader>sr <SID>replace
-
-    " replace the selected text
-    vnoremap <SID>replace :call <SID>VisualSelection('replace')<CR>
-    vmap <Leader>sr <SID>replace
-
-    let g:lmap.s.s = { 'name' : '+specific-content' }
-
-    " search specific content in current file
-    nnoremap <SID>vimgrep-file :vimgrep /\<<C-r>=expand("<cword>")<CR>\>/j <C-r>%
-    nmap <Leader>ssf <SID>vimgrep-file
-
-    " search specific content in current directory
-    nnoremap <SID>vimgrep-directory :vimgrep /\<<C-r>=expand("<cword>")<CR>\>/j **/*<Left><Left><Left><Left><Left><Left><Left><Left><Left>
-    nmap <Leader>ssd <SID>vimgrep-directory
+    vnoremap <SID>grep-in-file :call <SID>VisualSelection('file')<CR>
+    vmap <Leader>sf <SID>grep-in-file
 
     let g:lmap.s.g = { 'name' : '+grep' }
 
-    let g:lmap.s.g.f = ['vimgrep', 'grep-files']
+    " search specific content in current directory
+    nnoremap <SID>grep-in-directory :vimgrep /\<<C-r>=expand("<cword>")<CR>\>/j **/*<Left><Left><Left><Left><Left><Left><Left><Left><Left>
+    nmap <Leader>sgd <SID>grep-in-directory
+
     let g:lmap.s.g.e = ['GrepOptions', 'easygrep-options']
+
+    " search specific content in current file
+    nnoremap <SID>grep-in-file :vimgrep /\<<C-r>=expand("<cword>")<CR>\>/j <C-r>%
+    nmap <Leader>sgf <SID>grep-in-file
+
+    " repeat last search
+    nnoremap <SID>grep-last :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+    nmap <Leader>sl <SID>grep-last
+
+    " replace specific content
+    nnoremap <SID>replace-in-file :%s/\<<C-r>=expand("<cword>")<CR>\>/<C-r>=expand("<cword>")<CR>
+    nmap <Leader>sr <SID>replace-in-file
+
+    " replace the selected text
+    vnoremap <SID>replace-in-file :call <SID>VisualSelection('replace')<CR>
+    vmap <Leader>sr <SID>replace-in-file
+
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-cursorword :<C-u>DeniteCursorWord -no-quit -toggle -auto-resize -buffer-name=search grep:.<CR>
+      nmap <Leader>ss <SID>denite-cursorword
+    elseif dein#is_sourced('unite.vim')
+      nnoremap <silent> <SID>unite-cursorword :<C-u>UniteWithCursorWord -no-quit -toggle -auto-resize -buffer-name=search grep:.<CR>
+      nmap <Leader>ss <SID>unite-cursorword
+    endif
 
     let g:lmap.s.t = { 'name' : '+tags' }
 
@@ -627,12 +650,18 @@
 
     let g:lmap.j = { 'name' : '+jump' }
 
-    if dein#is_sourced('unite.vim')
-      nnoremap <silent> <SID>unite-line :<C-u>Unite -auto-resize -buffer-name=line line<CR>
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-line :<C-u>Denite -toggle -auto-resize -buffer-name=line line<CR>
+      nmap <Leader>jl <SID>denite-line
+
+      nnoremap <silent> <SID>denite-outline :<C-u>Denite -toggle -auto-resize -buffer-name=outline outline<CR>
+      nmap <Leader>jo <SID>denite-outline
+    elseif dein#is_sourced('unite.vim')
+      nnoremap <silent> <SID>unite-line :<C-u>Unite -toggle -auto-resize -buffer-name=line line<CR>
       nmap <Leader>jl <SID>unite-line
 
-      nnoremap <silent> <SID>unite-cursorword :<C-u>UniteWithCursorWord -no-quit -buffer-name=search grep:.<CR>
-      nmap <Leader>ss <SID>unite-cursorword
+      nnoremap <silent> <SID>unite-outline :<C-u>Unite -toggle -auto-resize -buffer-name=outline outline<CR>
+      nmap <Leader>jo <SID>unite-outline
     endif
 
     if dein#is_sourced('unite-gtags') "{{{
@@ -666,9 +695,6 @@
       nnoremap <silent> <SID>unite-gtags-completion :execute 'Unite gtags/completion'<CR>
       nmap <Leader>jm <SID>unite-gtags-completion
 
-      nnoremap <silent> <SID>unite-outline :<C-u>Unite -auto-resize -buffer-name=outline outline<CR>
-      nmap <Leader>jo <SID>unite-outline
-
       " lists references of a word
       " `global -qrs -e <pattern>`
       nnoremap <silent> <SID>unite-gtags-ref :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
@@ -678,34 +704,45 @@
 
     endif "}}}
 
-    if dein#is_sourced('unite-airline_themes')
-      nnoremap <silent> <SID>unite-airline-themes :<C-u>Unite -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<CR>
+    if dein#is_sourced('unite-airline_themes') && dein#is_sourced('vim-airline')
+      nnoremap <silent> <SID>unite-airline-themes :<C-u>Unite -toggle -winheight=10 -auto-preview -buffer-name=airline_themes airline_themes<CR>
       nmap <Leader>ja <SID>unite-airline-themes
     endif
 
-    if dein#is_sourced('unite-colorscheme')
-      nnoremap <silent> <SID>unite-colorschemes :<C-u>Unite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
-      nmap <Leader>js <SID>unite-colorschemes
-    endif
-
-    if dein#is_sourced('unite-help')
-      nnoremap <silent> <SID>unite-help :<C-u>Unite -auto-resize -buffer-name=help help<CR>
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-help :<C-u>Denite -toggle -auto-resize -buffer-name=help help<CR>
+      nmap <Leader>jh <SID>denite-help
+    elseif dein#is_sourced('unite-help')
+      nnoremap <silent> <SID>unite-help :<C-u>Unite -toggle -auto-resize -buffer-name=help help<CR>
       nmap <Leader>jh <SID>unite-help
     endif
 
+    if dein#is_sourced('denite.nvim')
+      nnoremap <silent> <SID>denite-colorschemes :<C-u>Denite -toggle -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
+      nmap <Leader>js <SID>denite-colorschemes
+    elseif dein#is_sourced('unite-colorscheme')
+      nnoremap <silent> <SID>unite-colorschemes :<C-u>Unite -toggle -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
+      nmap <Leader>js <SID>unite-colorschemes
+    endif
+
     if dein#is_sourced('junkfile.vim')
-      nnoremap <silent> <SID>unite-junkfile :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<CR>
+      nnoremap <silent> <SID>unite-junkfile :<C-u>Unite -toggle -auto-resize -buffer-name=junk junkfile junkfile/new<CR>
       nmap <Leader>jj <SID>unite-junkfile
     endif
 
     if dein#is_sourced('unite-tag')
-      nnoremap <silent> <SID>unite-tag :<C-u>Unite -auto-resize -buffer-name=tag tag tag/file<CR>
+      nnoremap <silent> <SID>unite-tag :<C-u>Unite -toggle -auto-resize -buffer-name=tag tag tag/file<CR>
       nmap <Leader>jt <SID>unite-tag
     endif
 
     if dein#is_sourced('neoyank.vim')
-      nnoremap <silent> <SID>unite-history :<C-u>Unite -buffer-name=yanks history/yank<CR>
-      nmap <Leader>jy <SID>unite-history
+      if dein#is_sourced('denite.nvim')
+        nnoremap <silent> <SID>unite-history :<C-u>Denite -toggle -auto-resize -buffer-name=yanks history/yank<CR>
+        nmap <Leader>jy <SID>unite-history
+      elseif dein#is_sourced('unite.vim')
+        nnoremap <silent> <SID>unite-history :<C-u>Unite -toggle -auto-resize -buffer-name=yanks history/yank<CR>
+        nmap <Leader>jy <SID>unite-history
+      endif
     endif
 
   "}}}
@@ -824,7 +861,7 @@
 
   function! s:my_displayfunc()
     let g:leaderGuide#displayname =
-        \ substitute(g:leaderGuide#displayname, '\c<cr>$', '', '')
+        \ substitute(g:leaderGuide#displayname, '\c<CR>$', '', '')
     let g:leaderGuide#displayname =
         \ substitute(g:leaderGuide#displayname, '^<Plug>', '', '')
     let g:leaderGuide#displayname =
@@ -841,11 +878,11 @@
 
   nnoremap <silent><nowait> <Leader> :<C-u>LeaderGuide '<Space>'<CR>
   vnoremap <silent><nowait> <Leader> :<C-u>LeaderGuideVisual '<Space>'<CR>
-  map <leader>. <Plug>leaderguide-global
+  map <Leader>. <Plug>leaderguide-global
 
   nnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuide  ','<CR>
   vnoremap <silent><nowait> <LocalLeader> :<C-u>LeaderGuideVisual  ','<CR>
-  map <localleader>. <Plug>leaderguide-buffer
+  map <LocalLeader>. <Plug>leaderguide-buffer
 
 "}}}
 

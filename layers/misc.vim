@@ -39,9 +39,11 @@ call dein#add('mhinz/vim-startify') "{{{
   let g:startify_custom_header = [
       \ ' Navim by taohe',
       \ '',
-      \ ' <Space>fm   go to anything (files, buffers, bookmarks)',
-      \ ' <Space>fr   select from MRU',
+      \ ' <Space>ff   go to files',
       \ ' <Space>bb   select from buffers',
+      \ ' <Space>ss   recursively search all files for matching text',
+      \ ' <Space>fr   select from MRU',
+      \ ' <Space>fm   go to anything (files, buffers, MRU, bookmarks)',
       \ ' <Space>jc   lists the references or definitions of a word',
       \ ' <Space>ft   toggle file explorer',
       \ ' <Space>tt   toggle tagbar',

@@ -1,4 +1,5 @@
 " platform {{{
+
   let g:navim_platform_windows = has('win64') || has('win32')
   let g:navim_platform_cygwin = has('win32unix')
   let g:navim_platform_macvim = has('gui_macvim')
@@ -18,6 +19,14 @@
 
   function! NavimGetCacheDir(suffix) "{{{
     return resolve(expand(s:cache_dir . '/' . a:suffix))
+  endfunction "}}}
+
+  function! NavimOnDoneUpdate() "{{{
+    if exists('g:navim_updated_rplugins')
+      return
+    endif
+    call dein#remote_plugins()
+    let g:navim_updated_rplugins = 1
   endfunction "}}}
 
   function! s:EnsureExists(path) "{{{
@@ -255,7 +264,7 @@
   set display+=lastline
   set wildmenu  "show list for autocomplete
   set wildmode=list:full
-  set wildignore+=.git/**,.svn/**,core.*,cscope.*,*.tags,tags
+  set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc,*.swp,*.swo,*.class,*.tags,tags,tags-*,cscope.*,*.taghl,.ropeproject/,__pycache__/,venv/,*.min.*,images/,img/,fonts/
   set wildignorecase
 
   set splitbelow
@@ -594,8 +603,8 @@
     let g:solarized_termcolors = 256
     let g:solarized_termtrans = 1
   "}}}
-  "call dein#add('nanotech/jellybeans.vim')
-  call dein#add('tomasr/molokai')
+  call dein#add('nanotech/jellybeans.vim')
+  call dein#add('justinmk/molokai')
   "call dein#add('chriskempson/vim-tomorrow-theme')
   "call dein#add('chriskempson/base16-vim')
   "call dein#add('w0ng/vim-hybrid')

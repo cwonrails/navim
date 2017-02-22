@@ -56,13 +56,24 @@ Startup vim and [dein](https://github.com/Shougo/dein.vim) will detect and ask y
 
 ## Advanced Settings
 
-It is completely customisable using a `~/.navimrc` file. Just copy `.navimrc.sample` to `~/.navimrc` and modify anything.
-
 Plugins are nicely organised in layers. There are many ready-to-use layers (javascript, navigation, scm, web, etc.) and you can add your own ones.
 
 Private layers can be added to `private_layers/`. And Private plugins can be added to `private_bundle/`. The content of these two directory is ignored by Git.
 
-Modify `g:navim_settings.layers` and `let g:navim_settings.additional_plugins` in `~/.navimrc` to include new layers or plugins.
+It is completely customisable using a `~/.navimrc` file. Just copy `.navimrc.sample` to `~/.navimrc` and modify anything.
+
+In most instances, modify `g:navim_settings` in `~/.navimrc` should meet your needs.
+
+Key                   | Value                                      | Description
+----------------------|--------------------------------------------|-------------------------------------------
+`layers`              | `'c'`, `'completion'`, `'editing'`, ...    | files in `layers/` or `private_layers/`
+`additional_plugins`  | `'joshdick/onedark.vim'`, ...              | github repo
+`encoding`            | `'utf-8'`, `'gbk'`, `'latin1'`, ...        | files in `encoding/`
+`explorer_plugin`     | `'nerdtree'`, `'vimfiler'`                 |
+`statusline_plugin`   | `'airline'`, `'lightline'`                 |
+`colorscheme`         | `'solarized'`, `'molokai'`, `'jellybeans'` |
+`powerline_fonts`     | `1`, `0`                                   | depend on [font](https://github.com/taohex/font)
+`nerd_fonts`          | `1`, `0`                                   | depend on [font](https://github.com/taohex/font)
 
 After restart Neovim (or Vim 8), run `call dein#clear_state() || call dein#update()` to apply changes.
 
@@ -124,32 +135,32 @@ brew install global
 #### Quick Compile YouCompleteMe
 
 ```sh
-cd ~/.vim/bundle/YouCompleteMe
+cd ~/.config/nvim/bundle/YouCompleteMe
 ./install.sh --clang-completer --omnisharp-completer
 ```
 
-Check for `~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_client_support.so` and `~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so`, done
+Check for `~/.config/nvim/bundle/YouCompleteMe/third_party/ycmd/ycm_client_support.so` and `~/.config/nvim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so`, done
 
 #### Full Compile YouCompleteMe
 
 Try this if quick compile does not work
 
 ```sh
-cd ~/.vim/bundle/
+cd ~/.config/nvim/bundle/
 git clone https://github.com/Valloric/YouCompleteMe
 cd YouCompleteMe/
 git submodule update --init --recursive
 ```
 
-Download clang from <http://llvm.org/releases/download.html> to `~/src/` and compile ycm_support_libs
+Download clang from <http://llvm.org/releases/download.html> to `~/local/src/` and compile ycm_support_libs
 
 ```sh
-mkdir -p ~/src/
-cd ~/src/
+mkdir -p ~/local/src/
+cd ~/local/src/
 tar xf clang+llvm-3.6.0-x86_64-apple-darwin.tar.xz
-mkdir -p ~/src/ycm_build/
-cd ~/src/ycm_build/
-cmake -G "Unix Makefiles" -DPATH_TO_LLVM_ROOT=~/src/clang+llvm-3.6.0-x86_64-apple-darwin . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
+mkdir -p ~/local/src/ycm_build/
+cd ~/local/src/ycm_build/
+cmake -G "Unix Makefiles" -DPATH_TO_LLVM_ROOT=~/local/src/clang+llvm-3.6.0-x86_64-apple-darwin . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
 make ycm_support_libs
 ```
 
@@ -161,26 +172,18 @@ Download <https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_ex
 
 this can be overridden with `g:navim_settings.completion_autoselect` and `g:navim_settings.completion_plugin`
 
-## Some Useful Plugins
+## Plugins
 
-### [unite.vim](https://github.com/Shougo/unite.vim)
-*	this is an extremely powerful plugin that lets you build up lists from arbitrary sources
+*	[denite.vim](https://github.com/Shougo/denite.nvim)
+*	[unite.vim](https://github.com/Shougo/unite.vim)
+*	[lightline.vim](https://github.com/itchyny/lightline.vim)
+*	[lightline-buffer](https://github.com/taohex/lightline-buffer)
+*	[deoplete](https://github.com/Shougo/deoplete.nvim)
+*	[vimfiler.vim](https://github.com/Shougo/vimfiler.vim)
+*	[unimpaired](https://github.com/tpope/vim-unimpaired)
+*	...
 
-### [lightline.vim](https://github.com/itchyny/lightline.vim)
-*	a light and configurable statusline/tabline
-
-### [lightline-buffer](https://github.com/taohex/lightline-buffer)
-*	show tab info and buffer info in tabline
-
-### [vimfiler.vim](https://github.com/Shougo/vimfiler.vim)
-*	powerful file explorer
-
-### [unimpaired](https://github.com/tpope/vim-unimpaired)
-*	many additional bracket `[]` maps
-*	`<C-up>` to move lines up
-*	`<C-down>` to move lines down
-
-### Recommended Fonts
+## Fonts
 
 *	[font](https://github.com/taohex/font)
 
@@ -198,13 +201,5 @@ I wanted to give special thanks to all of the following projects and people, bec
 *	[spacemacs](https://github.com/syl20bnr/spacemacs)
 *	[shougo](https://github.com/Shougo)
 *	[bling](https://github.com/bling/dotvim)
-*	[janus](https://github.com/carlhuda/janus)
-*	[spf13](https://github.com/spf13/spf13-vim)
-*	[yadr](http://skwp.github.com/dotfiles/)
-*	[astrails](https://github.com/astrails/dotvim)
-*	[tpope](https://github.com/tpope)
-*	[scrooloose](https://github.com/scrooloose)
-*	[lokaltog](https://github.com/Lokaltog)
-*	[sjl](https://github.com/sjl)
-*	[terryma](https://github.com/terryma)
+*	...
 

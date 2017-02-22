@@ -33,7 +33,7 @@ else
 endif "}}}
 
 if g:navim_settings.completion_plugin ==# 'deoplete' "{{{
-  call dein#add('Shougo/deoplete.nvim', {'on_i': 1}) "{{{
+  call dein#add('Shougo/deoplete.nvim', {'on_i': 1, 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
     " need to execute the `:UpdateRemotePlugins` and restart for the first time
     let g:deoplete#enable_at_startup = 1
   "}}}
