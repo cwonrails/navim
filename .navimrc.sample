@@ -1,4 +1,4 @@
-" after restart Neovim (or Vim 8),
+" after restart Neovim (or Vim),
 " run `call dein#clear_state() || call dein#update()` to apply changes
 
 " settings before all
@@ -25,7 +25,7 @@ function! BeforeAll()
 
   " additional plugins
   let g:navim_settings.additional_plugins = []
-  "'yonchu/accelerated-smooth-scroll', 'edkolev/tmuxline.vim'
+  "'joshdick/onedark.vim', 'yonchu/accelerated-smooth-scroll', 'edkolev/tmuxline.vim'
 
   " disabled plugins
   let g:navim_settings.disabled_plugins = [
@@ -53,8 +53,10 @@ function! BeforeAll()
   "let g:navim_settings.statusline_plugin = 'lightline'
 
   " user interface
-  "let g:navim_settings.colorscheme = 'molokai'
   let g:navim_settings.colorscheme = 'solarized'
+  "let g:navim_settings.colorscheme = 'molokai'
+  "let g:navim_settings.colorscheme = 'jellybeans'
+  "let g:navim_settings.colorscheme = 'onedark'
   let g:navim_settings.force256 = 0
   let g:navim_settings.termtrans = 0
   let g:navim_settings.max_column = 80

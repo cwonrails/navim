@@ -1,31 +1,31 @@
 # Navim
 
-A full-blown IDE based on Neovim (or Vim 8) with better navigation.
+A full-blown IDE based on Neovim (or Vim) with better navigation.
 
 ![Navim](http://taohex.github.io/navim/images/navim.gif)
 
 **Table of Contents**
 
-- [Keymapping](#keymapping)
+- [Key Mapping](#key-mapping)
 - [Basic Installation](#basic-installation)
 - [Advanced Settings](#advanced-settings)
 - [Advanced Installation](#advanced-installation)
-- [Some Useful Plugins](#some-useful-plugins)
+- [Plugins](#plugins)
 - [UI](#ui)
 - [Credits](#credits)
 - [License](#license)
 
-## Keymapping
+## Key Mapping
 
-You don't need to remember any keymapping, as navigation bar will show up immediately after the leader key (`<Space>` by default) is pressed.
+You don't need to remember any key mapping, as navigation bar will show up immediately after the leader key (`<Space>` by default) is pressed.
 
 `<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`.
 
-![Navim Keymapping](http://taohex.github.io/navim/images/navim_keymapping.png)
+![Navim Key Mapping](http://taohex.github.io/navim/images/navim_key_mapping.png)
 
-As shown, keymapping is carefully-chosen. More keymapping is listed here.
+As shown, key mapping is carefully-chosen. More key mapping is listed here.
 
-Keymapping          | Description
+Key Mapping         | Description
 --------------------|------------------------------------------------------------
 `<Left>`, `<Right>` | previous buffer, next buffer
 `<C-h>`, `<C-l>`    | move to window in the direction of hl
@@ -43,7 +43,7 @@ cd ~/.config/nvim/
 git submodule init && git submodule update
 ```
 
-Make links if you are using Vim 8:
+Make links if you are using Vim:
 
 ```sh
 mv ~/.vim ~/.vim.backup
@@ -62,20 +62,26 @@ Private layers can be added to `private_layers/`. And Private plugins can be add
 
 It is completely customisable using a `~/.navimrc` file. Just copy `.navimrc.sample` to `~/.navimrc` and modify anything.
 
+After restart Neovim (or Vim), run `call dein#clear_state() || call dein#update()` to apply changes.
+
+### Global Variables
+
 In most instances, modify `g:navim_settings` in `~/.navimrc` should meet your needs.
 
-Key                   | Value                                      | Description
-----------------------|--------------------------------------------|-------------------------------------------
-`layers`              | `'c'`, `'completion'`, `'editing'`, ...    | files in `layers/` or `private_layers/`
-`additional_plugins`  | `'joshdick/onedark.vim'`, ...              | github repo
-`encoding`            | `'utf-8'`, `'gbk'`, `'latin1'`, ...        | files in `encoding/`
-`explorer_plugin`     | `'nerdtree'`, `'vimfiler'`                 |
-`statusline_plugin`   | `'airline'`, `'lightline'`                 |
-`colorscheme`         | `'solarized'`, `'molokai'`, `'jellybeans'` |
-`powerline_fonts`     | `1`, `0`                                   | depend on [font](https://github.com/taohex/font)
-`nerd_fonts`          | `1`, `0`                                   | depend on [font](https://github.com/taohex/font)
-
-After restart Neovim (or Vim 8), run `call dein#clear_state() || call dein#update()` to apply changes.
+Key                      | Value                                               | Description
+-------------------------|-----------------------------------------------------|-------------------------------------------
+`layers`                 | `'c'`, `'completion'`, `'editing'`, ...             | files in `layers/` or `private_layers/`
+`additional_plugins`     | `'joshdick/onedark.vim'`, ...                       | github repo
+`encoding`               | `'utf-8'`, `'gbk'`, `'latin1'`, ...                 | files in `encoding/`
+`explorer_plugin`        | `'nerdtree'`, `'vimfiler'`                          |
+`statusline_plugin`      | `'airline'`, `'lightline'`                          |
+`completion_autoselect`  | `1`, `0`                                            | if equals `1`, auto select the best plugin (recommended)
+`completion_plugin`      | `'deoplete'`, `'neocomplete'`, `'neocomplcache'`    | only set this when `completion_autoselect` is `0`
+`syntaxcheck_autoselect` | `1`, `0`                                            | if equals `1`, auto select the best plugin (recommended)
+`syntaxcheck_plugin`     | `'ale'`, `'syntastic'`                              | only set this when `syntaxcheck_autoselect` is `0`
+`colorscheme`            | `'solarized'`, `'molokai'`, `'jellybeans'`          | use other colorschemes in `additional_plugins` or `layers` is supported
+`powerline_fonts`        | `1`, `0`                                            | requires [font](https://github.com/taohex/font)
+`nerd_fonts`             | `1`, `0`                                            | requires [font](https://github.com/taohex/font)
 
 ## Advanced Installation
 
