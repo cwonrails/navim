@@ -19,11 +19,11 @@ A full-blown IDE based on Neovim (or Vim) with better navigation.
 
 You don't need to remember any key mapping, as navigation bar will show up immediately after the leader key (`<Space>` by default) is pressed.
 
-`<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`.
+`<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`. For example, `<Space>``s``s` search the word under cursor. As shown below, key mapping is carefully-chosen.
 
 ![Navim Key Mapping](http://taohex.github.io/navim/images/navim_key_mapping.png)
 
-As shown, key mapping is carefully-chosen. More key mapping is listed here.
+More key mapping is listed here.
 
 Key Mapping         | Description
 --------------------|------------------------------------------------------------
