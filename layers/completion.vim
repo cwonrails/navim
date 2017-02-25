@@ -16,12 +16,15 @@ if g:navim_settings.completion_plugin ==# 'ycm' "{{{
     let g:UltiSnipsExpandTrigger = "<Tab>"
     let g:UltiSnipsJumpForwardTrigger = "<Tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
-    let g:UltiSnipsSnippetsDir = '~/.config/nvim/snippets'
+    let g:UltiSnipsSnippetsDir = NavimGetDir('snippets')
   "}}}
 else
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Shougo/neosnippet.vim') "{{{
-    let g:neosnippet#snippets_directory = '~/.config/nvim/bundle/vim-snippets/snippets,~/.config/nvim/snippets'
+    let g:neosnippet#data_directory = NavimGetCacheDir('neosnippet')
+    let g:neosnippet#snippets_directory =
+        \ '~/.config/nvim/bundle/vim-snippets/snippets,' .
+        \ NavimGetDir('snippets')
     let g:neosnippet#enable_snipmate_compatibility = 1
 
     imap <expr><Tab> neosnippet#expandable_or_jumpable() ?

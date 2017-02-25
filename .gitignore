@@ -1,5 +1,6 @@
 *~
 .cache/
+.DS_Store
 bundle/
 !bundle/repos/github.com/Shougo/dein.vim
 private_bundle/

@@ -4,6 +4,14 @@
   let g:navim_platform_cygwin = has('win32unix')
   let g:navim_platform_macvim = has('gui_macvim')
   let g:navim_platform_neovim = has('nvim')
+  let g:path_separator = g:navim_platform_windows ? '\' : '/'
+
+  if g:navim_platform_windows
+    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~\AppData\Local\nvim')
+  else
+    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~/.config/nvim')
+  endif
+  let s:cache_dir = s:nvim_dir . g:path_separator . '.cache'
 
   let maplocalleader = ','
   let mapleader = ' '
@@ -17,8 +25,12 @@
 
 " functions {{{
 
+  function! NavimGetDir(suffix) "{{{
+    return resolve(expand(s:nvim_dir . g:path_separator . a:suffix))
+  endfunction "}}}
+
   function! NavimGetCacheDir(suffix) "{{{
-    return resolve(expand(s:cache_dir . '/' . a:suffix))
+    return resolve(expand(s:cache_dir . g:path_separator . a:suffix))
   endfunction "}}}
 
   function! NavimOnDoneUpdate() "{{{
@@ -41,11 +53,11 @@
     endif
   endfunction "}}}
 
-  function! s:SourceLayers() "{{{
-    for f in split(glob('~/.config/nvim/layers/*.vim'), '\n')
+  function! s:SourceLayers(path) "{{{
+    for f in split(glob(a:path . g:path_separator . '*.vim'), '\n')
       let l:layer_name = fnamemodify(f, ':t:r')
       if count(g:navim_settings.layers, l:layer_name)
-        exe 'source' f
+        execute 'source' f
       endif
     endfor
   endfunction "}}}
@@ -53,8 +65,6 @@
 "}}}
 
 " init settings {{{
-
-  let s:cache_dir = get(g:navim_settings, 'cache_dir', '~/.config/nvim/.cache')
 
   " core
   call s:InsertIfNotExists(g:navim_settings, 'encoding', 'utf-8')
@@ -191,13 +201,22 @@
 
   set nocompatible
   set all&  " reset everything to their defaults
-  set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-  if g:navim_settings.syntaxcheck_plugin ==# 'ale'
-    set runtimepath+=~/.config/nvim/bundle/repos/github.com/w0rp/ale
+  if g:navim_platform_windows
+    set runtimepath+=~\AppData\Local\nvim\bundle\repos\github.com\Shougo\dein.vim
+    if g:navim_settings.syntaxcheck_plugin ==# 'ale'
+      set runtimepath+=~\AppData\Local\nvim\bundle\repos\github.com\w0rp\ale
+    endif
+  else
+    set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+    if g:navim_settings.syntaxcheck_plugin ==# 'ale'
+      set runtimepath+=~/.config/nvim/bundle/repos/github.com/w0rp/ale
+    endif
   endif
-  call dein#begin(expand('~/.config/nvim/bundle'))
+
+  "if dein#load_state(NavimGetDir('bundle'))
+  call dein#begin(NavimGetDir('bundle'))
   call dein#add('Shougo/dein.vim')
-  call dein#local('~/.config/nvim/private_bundle')
+  call dein#local(NavimGetDir('private_bundle'))
 
 "}}}
 
@@ -289,7 +308,7 @@
     set grepformat=%f:%l:%c:%m
   endif
 
-  " vim file/folder management {{{
+  " directory management {{{
 
     " persistent undo
     if exists('+undofile')
@@ -593,7 +612,8 @@
     call dein#add('Shougo/vimproc.vim', {'build': 'make'})
   endif "}}}
 
-  call s:SourceLayers()
+  call s:SourceLayers(NavimGetDir('layers'))
+  call s:SourceLayers(NavimGetDir('private_layers'))
 
 "}}}
 
@@ -630,6 +650,8 @@
   endif
 
   call dein#end()
+  "call dein#save_state()
+  "endif
   if dein#check_install()
     call dein#install()
   endif
@@ -679,25 +701,34 @@
         "highlight CursorLineNr
         highlight CTagsClass ctermfg=125
       else
-        exe "highlight! CTagsClass" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_magenta'] . g:solarized_vars['bg_none']
+        execute "highlight! CTagsClass" . g:solarized_vars['fmt_none'] .
+            \ g:solarized_vars['fg_magenta'] . g:solarized_vars['bg_none']
 
         " highlight lines in signify and vimdiff etc.
-        "exe "highlight! DiffAdd" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
-        "exe "highlight! DiffDelete" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_red']  . g:solarized_vars['bg_base02']
-        "exe "highlight! DiffChange" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
+        "execute "highlight! DiffAdd" . g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
+        "execute "highlight! DiffDelete" . g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_red']  . g:solarized_vars['bg_base02']
+        "execute "highlight! DiffChange" . g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
 
         " highlight signs in signify
-        "exe "highlight! SignifySignAdd" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
-        "exe "highlight! SignifySignDelete" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_red'] . g:solarized_vars['bg_base02']
-        "exe "highlight! SignifySignChange" . g:solarized_vars['fmt_none'] . g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
+        "execute "highlight! SignifySignAdd" . g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
+        "execute "highlight! SignifySignDelete" .
+        "    \ g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_red'] . g:solarized_vars['bg_base02']
+        "execute "highlight! SignifySignChange" .
+        "    \ g:solarized_vars['fmt_none'] .
+        "    \ g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
 
         " indent guides
         let g:indent_guides_auto_colors = 0
         " bg_cyan
-        exe "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesOdd" .
+        execute "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesOdd" .
             \ g:solarized_vars['fmt_none'] . g:solarized_vars['fg_base03'] .
             \ g:solarized_vars['bg_base02']
-        exe "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesEven" .
+        execute "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesEven" .
             \ g:solarized_vars['fmt_none'] . g:solarized_vars['fg_base03'] .
             \ g:solarized_vars['bg_base02']
       endif
@@ -711,16 +742,18 @@
 
 " load other scripts {{{
 
-  source ~/.config/nvim/core/autocmds.vim
-  source ~/.config/nvim/core/commands.vim
-  source ~/.config/nvim/core/mappings.vim
+  execute 'source ' . NavimGetDir('core') . g:path_separator . 'autocmds.vim'
+  execute 'source ' . NavimGetDir('core') . g:path_separator . 'commands.vim'
+  execute 'source ' . NavimGetDir('core') . g:path_separator . 'mappings.vim'
 
   if g:navim_settings.encoding ==# 'utf-8'
-    source ~/.config/nvim/encoding/utf-8.vim
+    execute 'source ' . NavimGetDir('encoding') . g:path_separator .
+        \ 'utf-8.vim'
   elseif g:navim_settings.encoding ==# 'gbk'
-    source ~/.config/nvim/encoding/gbk.vim
+    execute 'source ' . NavimGetDir('encoding') . g:path_separator . 'gbk.vim'
   else
-    source ~/.config/nvim/encoding/latin1.vim
+    execute 'source ' . NavimGetDir('encoding') . g:path_separator .
+        \ 'latin1.vim'
   endif
 
 "}}}

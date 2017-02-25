@@ -79,49 +79,6 @@
   endfunction "}}}
 
   function! s:OnUnitePostSource() abort "{{{
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-    call unite#filters#sorter_default#use(['sorter_rank'])
-
-    " change ignore_globs
-    call unite#custom#source(
-        \ 'file,file/async,file_rec,file_rec/async,file_mru', 'ignore_globs',
-        \ split(&wildignore, ','))
-    "call unite#custom#source('file,file/async,file_rec,file_rec/async', 'ignore_pattern',
-    "    \ '~$\|\.o$\|^core\.\|\.exe$\|^\.git/$\|^\.hg/$\|^\.svn/$\|' .
-    "    \ '^\.DS_Store$\|\.pyc$\|\.swp$\|\.swo$\|\.class$\|' .
-    "    \ '\.tags$\|^tags$\|^tags-\|^cscope\.\|\.taghl$\|' .
-    "    \ '^\.ropeproject/$\|^__pycache__/$\|^venv/$\|' .
-    "    \ '\.min\.\|^images/$\|^img/$\|^fonts/$')
-
-    call unite#custom#profile('default', 'context', {
-        \ 'start_insert': 1,
-        \ })
-        "\ 'direction': 'botright',
-  endfunction "}}}
-
-  function! s:UniteSettings() "{{{
-    nmap <buffer> Q <Plug>(unite_exit)
-    nmap <buffer> <Esc> <Plug>(unite_exit)
-    imap <buffer> <Esc> <Plug>(unite_exit)
-  endfunction "}}}
-
-"}}}
-
-if (g:navim_platform_neovim || (v:version >= 800)) && has('python3') "{{{
-
-  call dein#add('Shougo/denite.nvim', {
-      \ 'hook_post_source': function('s:OnDenitePostSource'),
-      \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
-    " need to execute the `:UpdateRemotePlugins` and restart for the first time
-  "}}}
-
-endif "}}}
-
-"{{{
-
-  "call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite','UniteWithCurrentDir','UniteWithBufferDir',
-  "    \ 'UniteWithProjectDir','UniteWithInput','UniteWithInputDirectory','UniteWithCursorWord']})
-  call dein#add('Shougo/unite.vim', {'hook_post_source': function('s:OnUnitePostSource')}) "{{{
 
     " change grep "{{{
       if executable('rg')
@@ -149,6 +106,52 @@ endif "}}}
       endif
     "}}}
 
+    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    call unite#filters#sorter_default#use(['sorter_rank'])
+
+    " change ignore_globs
+    call unite#custom#source(
+        \ 'file,file/async,file_rec,file_rec/async,file_mru', 'ignore_globs',
+        \ split(&wildignore, ','))
+    "call unite#custom#source('file,file/async,file_rec,file_rec/async', 'ignore_pattern',
+    "    \ '~$\|\.o$\|^core\.\|\.exe$\|^\.git/$\|^\.hg/$\|^\.svn/$\|' .
+    "    \ '^\.DS_Store$\|\.pyc$\|\.swp$\|\.swo$\|\.class$\|' .
+    "    \ '\.tags$\|^tags$\|^tags-\|^cscope\.\|\.taghl$\|' .
+    "    \ '^\.ropeproject/$\|^__pycache__/$\|^venv/$\|' .
+    "    \ '\.min\.\|^images/$\|^img/$\|^fonts/$')
+
+    call unite#custom#profile('default', 'context', {
+        \ 'start_insert': 1,
+        \ })
+        "\ 'direction': 'botright',
+
+  endfunction "}}}
+
+  function! s:UniteSettings() "{{{
+    nmap <buffer> Q <Plug>(unite_exit)
+    nmap <buffer> <Esc> <Plug>(unite_exit)
+    imap <buffer> <Esc> <Plug>(unite_exit)
+  endfunction "}}}
+
+"}}}
+
+if (g:navim_platform_neovim || (v:version >= 800)) && has('python3') "{{{
+
+  call dein#add('Shougo/denite.nvim', {
+      \ 'hook_post_source': function('s:OnDenitePostSource'),
+      \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
+    " need to execute the `:UpdateRemotePlugins` and restart for the first time
+  "}}}
+
+endif "}}}
+
+"{{{
+
+  "call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite','UniteWithCurrentDir','UniteWithBufferDir',
+  "    \ 'UniteWithProjectDir','UniteWithInput','UniteWithInputDirectory','UniteWithCursorWord']})
+  call dein#add('Shougo/unite.vim', {'hook_post_source': function('s:OnUnitePostSource')}) "{{{
+    let g:unite_data_directory = NavimGetCacheDir('unite')
+
     autocmd FileType unite call s:UniteSettings()
   "}}}
 
@@ -167,10 +170,16 @@ endif "}}}
 call dein#add('Shougo/neomru.vim', {
     \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
   " need to execute the `:UpdateRemotePlugins` and restart for the first time
+  let g:neomru#file_mru_path = NavimGetCacheDir('neomru') .
+      \ g:path_separator . 'file'
+  let g:neomru#directory_mru_path = NavimGetCacheDir('neomru') .
+      \ g:path_separator . 'directory'
 "}}}
 call dein#add('Shougo/neoyank.vim', {
     \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
   " need to execute the `:UpdateRemotePlugins` and restart for the first time
+  let g:neoyank#file = NavimGetCacheDir('neoyank') .
+      \ g:path_separator . 'history_yank'
 "}}}
 
 

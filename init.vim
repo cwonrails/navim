@@ -1,7 +1,13 @@
 " user settings {{{
 
-  if filereadable(expand('~/.navimrc'))
-    source ~/.navimrc
+  if has('win64') || has('win32')
+    if filereadable(expand('~\_navimrc'))
+      source ~\_navimrc
+    endif
+  else
+    if filereadable(expand('~/.navimrc'))
+      source ~/.navimrc
+    endif
   endif
 
 " }}}
@@ -21,7 +27,11 @@
     finish
   endif
 
-  source ~/.config/nvim/core/main.vim
+  if has('win64') || has('win32')
+    source ~\AppData\Local\nvim\core\main.vim
+  else
+    source ~/.config/nvim/core/main.vim
+  endif
 
 " }}}
 
