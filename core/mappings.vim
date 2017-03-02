@@ -7,22 +7,6 @@
     endfor
   endfunction "}}}
 
-  function! <SID>Preserve(command) "{{{
-    " preparation: save last search, and cursor position.
-    let _s = @/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    execute a:command
-    " clean up: restore previous search history, and cursor position
-    let @/ = _s
-    call cursor(l, c)
-  endfunction "}}}
-
-  function! <SID>StripTrailingWhitespace() "{{{
-    call <SID>Preserve("%s/\\s\\+$//e")
-  endfunction "}}}
-
   function! <SID>CloseWindowOrKillBuffer() "{{{
     " never bdelete a nerd tree
     if matchstr(expand("%"), 'NERD') ==# 'NERD'
@@ -845,7 +829,7 @@
     noremap <SID>remove-windows-endl mmHmt:%s/<C-V><CR>//ge<CR>'tzt'm
     nmap <Leader>xm <SID>remove-windows-endl
 
-    nnoremap <SID>remove-trailing-whitespace :call <SID>StripTrailingWhitespace()<CR>
+    nnoremap <SID>remove-trailing-whitespace :call NavimStripTrailingWhitespace()<CR>
     nmap <Leader>xt <SID>remove-trailing-whitespace
 
     " eval vimscript by line or visual selection

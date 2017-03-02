@@ -4,14 +4,14 @@ autocmd BufReadPost *
     \   exe 'normal! g`"zvzz' |
     \ endif
 
-autocmd FileType js,scss,css autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType js,scss,css autocmd BufWritePre <buffer> call NavimStripTrailingWhitespace()
 autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
 autocmd FileType css,scss nnoremap <silent> <SID>sort vi{:sort<CR>
 autocmd FileType css,scss nmap <LocalLeader>s <SID>sort
-autocmd FileType python autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType python autocmd BufWritePre <buffer> call NavimStripTrailingWhitespace()
 autocmd FileType python setlocal foldmethod=indent
-autocmd FileType php autocmd BufWritePre <buffer> call StripTrailingWhitespace()
-autocmd FileType coffee autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType php autocmd BufWritePre <buffer> call NavimStripTrailingWhitespace()
+autocmd FileType coffee autocmd BufWritePre <buffer> call NavimStripTrailingWhitespace()
 autocmd FileType vim setlocal foldmethod=indent keywordprg=:help
 
 " vim-jsbeautify

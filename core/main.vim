@@ -6,13 +6,6 @@
   let g:navim_platform_neovim = has('nvim')
   let g:path_separator = g:navim_platform_windows ? '\' : '/'
 
-  if g:navim_platform_windows
-    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~\AppData\Local\nvim')
-  else
-    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~/.config/nvim')
-  endif
-  let s:cache_dir = s:nvim_dir . g:path_separator . '.cache'
-
   let maplocalleader = ','
   let mapleader = ' '
   let g:mapleader = ' '
@@ -20,6 +13,13 @@
   if !exists('g:navim_settings')
     let g:navim_settings = {}
   endif
+
+  if g:navim_platform_windows
+    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~\AppData\Local\nvim')
+  else
+    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~/.config/nvim')
+  endif
+  let s:cache_dir = s:nvim_dir . g:path_separator . '.cache'
 
 "}}}
 
@@ -39,6 +39,22 @@
     endif
     call dein#remote_plugins()
     let g:navim_updated_rplugins = 1
+  endfunction "}}}
+
+  function! NavimPreserve(command) "{{{
+    " preparation: save last search, and cursor position.
+    let _s = @/
+    let l = line(".")
+    let c = col(".")
+    " do the business:
+    execute a:command
+    " clean up: restore previous search history, and cursor position
+    let @/ = _s
+    call cursor(l, c)
+  endfunction "}}}
+
+  function! NavimStripTrailingWhitespace() "{{{
+    call NavimPreserve("%s/\\s\\+$//e")
   endfunction "}}}
 
   function! s:EnsureExists(path) "{{{
@@ -264,15 +280,18 @@
 
   " whitespace
   set backspace=indent,eol,start  " allow backspacing everything in insert mode
-  set autoindent  " automatically indent to match adjacent lines
-  set expandtab  " use spaces instead of tabs
-  set smarttab  " use shiftwidth to enter tabs
+
+  " <http://vim.wikia.com/wiki/Indenting_source_code>
+  " number of spaces when indenting
+  let &shiftwidth = g:navim_settings.default_indent
   " number of spaces per tab for display
   let &tabstop = g:navim_settings.default_indent
   " number of spaces per tab in insert mode
   let &softtabstop = g:navim_settings.default_indent
-  " number of spaces when indenting
-  let &shiftwidth = g:navim_settings.default_indent
+  set expandtab  " use spaces instead of tabs
+  set smarttab  " use shiftwidth to enter tabs
+  set autoindent  " automatically indent to match adjacent lines
+
   set list  "highlight whitespace
   set shiftround
   set linebreak
