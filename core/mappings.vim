@@ -522,12 +522,12 @@
         nmap <Leader>ste <SID>gtags-strings
 
         " get a list of tags in specified files
-        nnoremap <SID>gtags-files :Gtags -f %
+        nnoremap <SID>gtags-files :Gtags -f %<CR>
         "vnoremap <SID>gtags-files <Esc>:execute 'Gtags -f ' . <SID>GetVisualSelection()
         nmap <Leader>stf <SID>gtags-files
 
         " go to definition or reference
-        nnoremap <SID>gtags-cursor :GtagsCursor
+        nnoremap <SID>gtags-cursor :GtagsCursor<CR>
         nmap <Leader>stg <SID>gtags-cursor
 
         " find reference
