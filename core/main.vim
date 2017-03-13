@@ -188,26 +188,6 @@
         let g:navim_settings.fonts_plugin = 'vim-devicons'
     endif "}}}
 
-    if !empty(g:navim_settings.bin_dir) && isdirectory(expand(g:navim_settings.bin_dir))
-      " cscopeprg
-      if g:navim_settings.cscopeprg ==# 'gtags-cscope'
-        execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/gtags-cscope'
-      elseif g:navim_settings.cscopeprg ==# 'cscope'
-        execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/cscope'
-      endif
-
-      " ctags
-      let g:tagbar_ctags_bin = g:navim_settings.bin_dir . '/ctags'
-      "let g:ConqueGdb_GdbExe = g:navim_settings.bin_dir . '/gdb'
-    else
-      " cscopeprg
-      if g:navim_settings.cscopeprg ==# 'gtags-cscope'
-        set cscopeprg=gtags-cscope
-      elseif g:navim_settings.cscopeprg ==# 'cscope'
-        set cscopeprg=cscope
-      endif
-    endif
-
   "}}}
 
 "}}}
@@ -225,6 +205,33 @@
     set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
     if g:navim_settings.syntaxcheck_plugin ==# 'ale'
       set runtimepath+=~/.config/nvim/bundle/repos/github.com/w0rp/ale
+    endif
+  endif
+
+  if !empty(g:navim_settings.bin_dir) &&
+      \ isdirectory(expand(g:navim_settings.bin_dir))
+    " cscopeprg
+    if g:navim_settings.cscopeprg ==# 'gtags-cscope' &&
+        \ filereadable(expand(g:navim_settings.bin_dir . '/gtags-cscope'))
+      execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/gtags-cscope'
+    elseif g:navim_settings.cscopeprg ==# 'cscope' &&
+        \ filereadable(expand(g:navim_settings.bin_dir . '/cscope'))
+      execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/cscope'
+    endif
+
+    " ctags
+    if filereadable(expand(g:navim_settings.bin_dir . '/ctags'))
+      let g:tagbar_ctags_bin = g:navim_settings.bin_dir . '/ctags'
+    endif
+    if filereadable(expand(g:navim_settings.bin_dir . '/gdb'))
+      let g:ConqueGdb_GdbExe = g:navim_settings.bin_dir . '/gdb'
+    endif
+  else
+    " cscopeprg
+    if g:navim_settings.cscopeprg ==# 'gtags-cscope'
+      set cscopeprg=gtags-cscope
+    elseif g:navim_settings.cscopeprg ==# 'cscope'
+      set cscopeprg=cscope
     endif
   endif
 
@@ -290,6 +297,8 @@
   set expandtab  " use spaces instead of tabs
   set smarttab  " use shiftwidth to enter tabs
   set autoindent  " automatically indent to match adjacent lines
+  " the amount of indent for a continuation line for vim script
+  let g:vim_indent_cont = &shiftwidth * 2
 
   set list  "highlight whitespace
   set shiftround

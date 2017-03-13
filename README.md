@@ -73,7 +73,7 @@ Key                      | Value                                               |
 `layers`                 | `'c'`, `'completion'`, `'editing'`, ...             | files in `layers/` or `private_layers/`
 `additional_plugins`     | `'joshdick/onedark.vim'`, ...                       | github repo
 `encoding`               | `'utf-8'`, `'gbk'`, `'latin1'`, ...                 | files in `encoding/`
-`bin_dir`                | `'/usr/local/bin'`, ...                             | bin directory for cscope, ctags, ...
+`bin_dir`                | `'/usr/local/bin'`, ...                             | bin directory for cscope, ctags, gdb, ...
 `explorer_plugin`        | `'nerdtree'`, `'vimfiler'`                          |
 `statusline_plugin`      | `'airline'`, `'lightline'`                          |
 `completion_autoselect`  | `1`, `0`                                            | if equals `1`, auto select the best plugin (recommended)
