@@ -85,7 +85,7 @@
   " core
   call s:InsertIfNotExists(g:navim_settings, 'encoding', 'utf-8')
   call s:InsertIfNotExists(g:navim_settings, 'default_indent', 2)
-  call s:InsertIfNotExists(g:navim_settings, 'use_local_bin', 0)
+  call s:InsertIfNotExists(g:navim_settings, 'bin_dir', '')
   call s:InsertIfNotExists(g:navim_settings, 'cscopeprg', 'gtags-cscope')
 
   " plugins
@@ -188,25 +188,24 @@
         let g:navim_settings.fonts_plugin = 'vim-devicons'
     endif "}}}
 
-    " cscopeprg
-    if g:navim_settings.use_local_bin != 0
+    if !empty(g:navim_settings.bin_dir) && isdirectory(expand(g:navim_settings.bin_dir))
+      " cscopeprg
       if g:navim_settings.cscopeprg ==# 'gtags-cscope'
-        set cscopeprg=~/local/bin/gtags-cscope
+        execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/gtags-cscope'
       elseif g:navim_settings.cscopeprg ==# 'cscope'
-        set cscopeprg=~/local/bin/cscope
+        execute 'set cscopeprg=' . g:navim_settings.bin_dir . '/cscope'
       endif
+
+      " ctags
+      let g:tagbar_ctags_bin = g:navim_settings.bin_dir . '/ctags'
+      "let g:ConqueGdb_GdbExe = g:navim_settings.bin_dir . '/gdb'
     else
+      " cscopeprg
       if g:navim_settings.cscopeprg ==# 'gtags-cscope'
         set cscopeprg=gtags-cscope
       elseif g:navim_settings.cscopeprg ==# 'cscope'
         set cscopeprg=cscope
       endif
-    endif
-
-    " ctags
-    if g:navim_settings.use_local_bin != 0
-      let g:tagbar_ctags_bin = '~/local/bin/ctags'
-      "let g:ConqueGdb_GdbExe = '~/local/bin/gdb'
     endif
 
   "}}}
@@ -720,34 +719,34 @@
         "highlight CursorLineNr
         highlight CTagsClass ctermfg=125
       else
-        execute "highlight! CTagsClass" . g:solarized_vars['fmt_none'] .
+        execute 'highlight! CTagsClass' . g:solarized_vars['fmt_none'] .
             \ g:solarized_vars['fg_magenta'] . g:solarized_vars['bg_none']
 
         " highlight lines in signify and vimdiff etc.
-        "execute "highlight! DiffAdd" . g:solarized_vars['fmt_none'] .
+        "execute 'highlight! DiffAdd' . g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
-        "execute "highlight! DiffDelete" . g:solarized_vars['fmt_none'] .
+        "execute 'highlight! DiffDelete' . g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_red']  . g:solarized_vars['bg_base02']
-        "execute "highlight! DiffChange" . g:solarized_vars['fmt_none'] .
+        "execute 'highlight! DiffChange' . g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
 
         " highlight signs in signify
-        "execute "highlight! SignifySignAdd" . g:solarized_vars['fmt_none'] .
+        "execute 'highlight! SignifySignAdd' . g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_green'] . g:solarized_vars['bg_base02']
-        "execute "highlight! SignifySignDelete" .
+        "execute 'highlight! SignifySignDelete' .
         "    \ g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_red'] . g:solarized_vars['bg_base02']
-        "execute "highlight! SignifySignChange" .
+        "execute 'highlight! SignifySignChange' .
         "    \ g:solarized_vars['fmt_none'] .
         "    \ g:solarized_vars['fg_yellow'] . g:solarized_vars['bg_base02']
 
         " indent guides
         let g:indent_guides_auto_colors = 0
         " bg_cyan
-        execute "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesOdd" .
+        execute 'autocmd VimEnter,Colorscheme * :highlight! IndentGuidesOdd' .
             \ g:solarized_vars['fmt_none'] . g:solarized_vars['fg_base03'] .
             \ g:solarized_vars['bg_base02']
-        execute "autocmd VimEnter,Colorscheme * :highlight! IndentGuidesEven" .
+        execute 'autocmd VimEnter,Colorscheme * :highlight! IndentGuidesEven' .
             \ g:solarized_vars['fmt_none'] . g:solarized_vars['fg_base03'] .
             \ g:solarized_vars['bg_base02']
       endif
