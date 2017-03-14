@@ -162,7 +162,9 @@ endif "}}}
 
   "call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite','UniteWithCurrentDir','UniteWithBufferDir',
   "    \ 'UniteWithProjectDir','UniteWithInput','UniteWithInputDirectory','UniteWithCursorWord']})
-  call dein#add('Shougo/unite.vim', {'hook_post_source': function('s:OnUnitePostSource')}) "{{{
+  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+  call dein#add('Shougo/unite.vim', {'depends': 'Shougo/vimproc.vim',
+      \ 'hook_post_source': function('s:OnUnitePostSource')}) "{{{
     let g:unite_data_directory = NavimGetCacheDir('unite')
 
     autocmd FileType unite call s:UniteSettings()

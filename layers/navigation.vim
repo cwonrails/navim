@@ -67,8 +67,9 @@ if g:navim_settings.explorer_plugin ==# 'nerdtree' "{{{
 "}}}
 elseif g:navim_settings.explorer_plugin ==# 'vimfiler' "{{{
   " vimfiler require unite
-  call dein#add('Shougo/unite.vim')
-  call dein#add('Shougo/vimfiler.vim') "{{{
+  call dein#add('Shougo/vimproc.vim', {'build': 'make'})
+  call dein#add('Shougo/unite.vim', {'depends': 'Shougo/vimproc.vim'})
+  call dein#add('Shougo/vimfiler.vim', {'depends': 'Shougo/unite.vim'}) "{{{
     let g:vimfiler_as_default_explorer = 1
     let g:vimfiler_ignore_pattern = '^\%(\.git\|\.hg\|\.svn\|\.DS_Store\)$'
     let g:vimfiler_no_default_key_mappings = 1

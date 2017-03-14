@@ -636,7 +636,6 @@
       vmap <C-Up> [egv
       vmap <C-Down> ]egv
     "}}}
-    call dein#add('Shougo/vimproc.vim', {'build': 'make'})
   endif "}}}
 
   call s:SourceLayers(NavimGetDir('layers'))
