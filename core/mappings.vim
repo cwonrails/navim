@@ -284,7 +284,7 @@
     nmap <Leader>bm <SID>unite-quick-match-buffer
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-buffer :<C-u>Denite -toggle -auto-resize -buffer-name=buffers buffer file_mru<CR>
+      nnoremap <silent> <SID>denite-buffer :<C-u>Denite -auto-resize -buffer-name=buffers buffer file_mru<CR>
       nmap <Leader>bb <SID>denite-buffer
     elseif dein#is_sourced('unite.vim')
       nnoremap <silent> <SID>unite-buffer :<C-u>Unite -toggle -auto-resize -buffer-name=buffers buffer file_mru<CR>
@@ -351,7 +351,7 @@
     let g:lmap.f = { 'name' : '+files' }
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-file :<C-u>Denite -toggle -auto-resize -buffer-name=files file_rec<CR><C-u>
+      nnoremap <silent> <SID>denite-file :<C-u>Denite -auto-resize -buffer-name=files file_rec<CR><C-u>
       nmap <Leader>ff <SID>denite-file
     elseif dein#is_sourced('unite.vim')
       if g:navim_platform_windows
@@ -365,7 +365,7 @@
     if dein#is_sourced('neomru.vim')
       " -auto-preview
       if dein#is_sourced('denite.nvim')
-        nnoremap <silent> <SID>denite-mixed :<C-u>Denite -toggle -auto-resize -buffer-name=mixed buffer file_rec file_mru bookmark<CR><C-u>
+        nnoremap <silent> <SID>denite-mixed :<C-u>Denite -auto-resize -buffer-name=mixed buffer file_rec file_mru bookmark<CR><C-u>
         nmap <Leader>fm <SID>denite-mixed
       elseif dein#is_sourced('unite.vim')
         if g:navim_platform_windows
@@ -379,7 +379,7 @@
 
     if dein#is_sourced('neomru.vim')
       if dein#is_sourced('denite.nvim')
-        nnoremap <silent> <SID>denite-mru :<C-u>Denite -toggle -auto-resize -buffer-name=recent file_mru<CR>
+        nnoremap <silent> <SID>denite-mru :<C-u>Denite -auto-resize -buffer-name=recent file_mru<CR>
         nmap <Leader>fr <SID>denite-mru
       elseif dein#is_sourced('unite.vim')
         nnoremap <silent> <SID>unite-mru :<C-u>Unite -toggle -auto-resize -buffer-name=recent file_mru<CR>
@@ -398,10 +398,9 @@
       nmap <Leader>ft <SID>vimfiler-toggle
       nnoremap <silent> <SID>vimfiler-find :VimFilerExplorer -find -winwidth=40 -direction=botright<CR>
       nmap <Leader>fT <SID>vimfiler-find
+      "nnoremap <silent> <Leader>n :VimFiler -toggle -split -buffer-name=explorer -winwidth=40 -no-quit -direction=botright<CR>
+      "nnoremap <silent> <Leader>nf :VimFiler -find -toggle -split -buffer-name=explorer -winwidth=40 -no-quit -direction=botright<CR>
     endif "}}}
-
-    "nnoremap <silent> <Leader>n :VimFiler -toggle -split -buffer-name=explorer -winwidth=40 -no-quit -direction=botright<CR>
-    "nnoremap <silent> <Leader>nf :VimFiler -find -toggle -split -buffer-name=explorer -winwidth=40 -no-quit -direction=botright<CR>
 
     let g:lmap.f.v = { 'name' : '+vim' }
 
@@ -487,7 +486,7 @@
     vmap <Leader>sr <SID>replace-in-file
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-cursorword :<C-u>DeniteCursorWord -no-quit -toggle -auto-resize -buffer-name=search grep:.<CR>
+      nnoremap <silent> <SID>denite-cursorword :<C-u>DeniteCursorWord -no-quit -auto-resize -buffer-name=search grep:.<CR>
       nmap <Leader>ss <SID>denite-cursorword
     elseif dein#is_sourced('unite.vim')
       nnoremap <silent> <SID>unite-cursorword :<C-u>UniteWithCursorWord -no-quit -toggle -auto-resize -buffer-name=search grep:.<CR>
@@ -635,10 +634,10 @@
     let g:lmap.j = { 'name' : '+jump' }
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-line :<C-u>Denite -toggle -auto-resize -buffer-name=line line<CR>
+      nnoremap <silent> <SID>denite-line :<C-u>Denite -auto-resize -buffer-name=line line<CR>
       nmap <Leader>jl <SID>denite-line
 
-      nnoremap <silent> <SID>denite-outline :<C-u>Denite -toggle -auto-resize -buffer-name=outline outline<CR>
+      nnoremap <silent> <SID>denite-outline :<C-u>Denite -auto-resize -buffer-name=outline outline<CR>
       nmap <Leader>jo <SID>denite-outline
     elseif dein#is_sourced('unite.vim')
       nnoremap <silent> <SID>unite-line :<C-u>Unite -toggle -auto-resize -buffer-name=line line<CR>
@@ -694,7 +693,7 @@
     endif
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-help :<C-u>Denite -toggle -auto-resize -buffer-name=help help<CR>
+      nnoremap <silent> <SID>denite-help :<C-u>Denite -auto-resize -buffer-name=help help<CR>
       nmap <Leader>jh <SID>denite-help
     elseif dein#is_sourced('unite-help')
       nnoremap <silent> <SID>unite-help :<C-u>Unite -toggle -auto-resize -buffer-name=help help<CR>
@@ -702,7 +701,7 @@
     endif
 
     if dein#is_sourced('denite.nvim')
-      nnoremap <silent> <SID>denite-colorschemes :<C-u>Denite -toggle -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
+      nnoremap <silent> <SID>denite-colorschemes :<C-u>Denite -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
       nmap <Leader>js <SID>denite-colorschemes
     elseif dein#is_sourced('unite-colorscheme')
       nnoremap <silent> <SID>unite-colorschemes :<C-u>Unite -toggle -winheight=10 -auto-preview -buffer-name=colorschemes colorscheme<CR>
@@ -721,7 +720,7 @@
 
     if dein#is_sourced('neoyank.vim')
       if dein#is_sourced('denite.nvim')
-        nnoremap <silent> <SID>unite-history :<C-u>Denite -toggle -auto-resize -buffer-name=yanks history/yank<CR>
+        nnoremap <silent> <SID>unite-history :<C-u>Denite -auto-resize -buffer-name=yanks history/yank<CR>
         nmap <Leader>jy <SID>unite-history
       elseif dein#is_sourced('unite.vim')
         nnoremap <silent> <SID>unite-history :<C-u>Unite -toggle -auto-resize -buffer-name=yanks history/yank<CR>

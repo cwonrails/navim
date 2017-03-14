@@ -2,6 +2,10 @@
 
   function! s:OnDenitePostSource() abort "{{{
 
+    " change file_rec command.
+    "call denite#custom#var('file_rec', 'command',
+    "    \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
     " change mappings "{{{
       call denite#custom#map(
           \ 'insert',
@@ -76,6 +80,15 @@
     "    \ '*.tags', 'tags', 'tags-*', 'cscope.*', '*.taghl',
     "    \ '.ropeproject/', '__pycache__/', 'venv/',
     "    \ '*.min.*', 'images/', 'img/', 'fonts/'])
+
+    " change matchers
+    call denite#custom#source('file_rec,file_mru', 'matchers',
+        \ ['matcher_ignore_globs'])
+    call denite#custom#source('bookmark,buffer,colorscheme,grep,help,line,outline',
+        \ 'matchers', ['matcher_fuzzy'])
+
+    " change sorters
+    call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
   endfunction "}}}
 
   function! s:OnUnitePostSource() abort "{{{
