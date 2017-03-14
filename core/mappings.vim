@@ -300,16 +300,16 @@
     nmap <Leader>bkf <SID>buffer-kill-forward
     nmap <silent> <SID>buffer-kill-bun <Plug>BufKillBun
     nmap <Leader>bku <SID>buffer-kill-bun
-    nmap <silent> <SID>buffer-kill-!bun <Plug>BufKillBangBun
-    nmap <Leader>bk!u <SID>buffer-kill-!bun
+    nmap <silent> <SID>buffer-kill-bangbun <Plug>BufKillBangBun
+    nmap <Leader>bk!u <SID>buffer-kill-bangbun
     nmap <silent> <SID>buffer-kill-bd <Plug>BufKillBd
     nmap <Leader>bkd <SID>buffer-kill-bd
-    nmap <silent> <SID>buffer-kill-!bd <Plug>BufKillBangBd
-    nmap <Leader>bk!d <SID>buffer-kill-!bd
+    nmap <silent> <SID>buffer-kill-bangbd <Plug>BufKillBangBd
+    nmap <Leader>bk!d <SID>buffer-kill-bangbd
     nmap <silent> <SID>buffer-kill-bw <Plug>BufKillBw
     nmap <Leader>bkw <SID>buffer-kill-bw
-    nmap <silent> <SID>buffer-kill-!bw <Plug>BufKillBangBw
-    nmap <Leader>bk!w <SID>buffer-kill-!bw
+    nmap <silent> <SID>buffer-kill-bangbw <Plug>BufKillBangBw
+    nmap <Leader>bk!w <SID>buffer-kill-bangbw
     nmap <silent> <SID>buffer-kill-undo <Plug>BufKillUndo
     nmap <Leader>bko <SID>buffer-kill-undo
     nmap <silent> <SID>buffer-kill-alt <Plug>BufKillAlt
@@ -855,9 +855,9 @@
 
   let g:topdict = {}
   let g:topdict[' '] = g:lmap
-  let g:topdict[' ']['name'] = '<leader>'
+  let g:topdict[' ']['name'] = '<Leader>'
   let g:topdict[','] = g:llmap
-  let g:topdict[',']['name'] = '<localleader>'
+  let g:topdict[',']['name'] = '<LocalLeader>'
   call leaderGuide#register_prefix_descriptions("", "g:topdict")
 
   nnoremap <silent><nowait> <Leader> :<C-u>LeaderGuide '<Space>'<CR>

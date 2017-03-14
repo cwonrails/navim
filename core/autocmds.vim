@@ -4,6 +4,16 @@ autocmd BufReadPost *
     \   exe 'normal! g`"zvzz' |
     \ endif
 
+
+" unmap {{{
+
+  " a.vim
+  autocmd FileType c,cpp silent! unmap <Leader>ih
+  autocmd FileType c,cpp silent! unmap <Leader>is
+  autocmd FileType c,cpp silent! unmap <Leader>ihn
+
+" }}}
+
 autocmd FileType js,scss,css autocmd BufWritePre <buffer> call NavimStripTrailingWhitespace()
 autocmd FileType css,scss setlocal foldmethod=marker foldmarker={,}
 autocmd FileType css,scss nnoremap <silent> <SID>sort vi{:sort<CR>

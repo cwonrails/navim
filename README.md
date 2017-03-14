@@ -181,7 +181,7 @@ this can be overridden with `g:navim_settings.completion_autoselect` and `g:navi
 
 ## Plugins
 
-*	[denite.vim](https://github.com/Shougo/denite.nvim)
+*	[denite.nvim](https://github.com/Shougo/denite.nvim)
 *	[unite.vim](https://github.com/Shougo/unite.vim)
 *	[lightline.vim](https://github.com/itchyny/lightline.vim)
 *	[lightline-buffer](https://github.com/taohex/lightline-buffer)
