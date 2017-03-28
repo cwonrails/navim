@@ -1,3 +1,21 @@
+" platform {{{
+
+  let g:navim_platform_windows = has('win64') || has('win32')
+  let g:navim_platform_cygwin = has('win32unix')
+  let g:navim_platform_macvim = has('gui_macvim')
+  let g:navim_platform_neovim = has('nvim')
+  let g:navim_path_separator = g:navim_platform_windows ? '\' : '/'
+
+  let maplocalleader = ','
+  let mapleader = ' '
+  let g:mapleader = ' '
+
+  if !exists('g:navim_settings')
+    let g:navim_settings = {}
+  endif
+
+"}}}
+
 " user settings {{{
 
   if has('win64') || has('win32')
@@ -27,11 +45,8 @@
     finish
   endif
 
-  if has('win64') || has('win32')
-    source ~\AppData\Local\nvim\core\main.vim
-  else
-    source ~/.config/nvim/core/main.vim
-  endif
+  execute 'source ' . fnamemodify(resolve(expand('<sfile>')), ':p:h') .
+      \ g:navim_path_separator . 'core' . g:navim_path_separator . 'main.vim'
 
 " }}}
 

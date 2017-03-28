@@ -51,7 +51,7 @@ endif
 " <https://github.com/itchyny/lightline.vim/issues/36>
 " os x: 
 " ubuntu: 
-let g:lightline_buffer_logo = ' '
+let g:lightline_buffer_logo = '' " ' '
 let g:lightline_buffer_readonly_icon = ''
 let g:lightline_buffer_modified_icon = '✭'
 let g:lightline_buffer_git_icon = ' '

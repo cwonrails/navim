@@ -11,6 +11,7 @@ A full-blown IDE based on Neovim (or Vim) with better navigation.
 - [Advanced Settings](#advanced-settings)
 - [Advanced Installation](#advanced-installation)
 - [Plugins](#plugins)
+- [Fonts](#fonts)
 - [UI](#ui)
 - [Credits](#credits)
 - [License](#license)
@@ -19,7 +20,7 @@ A full-blown IDE based on Neovim (or Vim) with better navigation.
 
 You don't need to remember any key mapping, as navigation bar will show up immediately after the leader key (`<Space>` by default) is pressed.
 
-`<Leader>` default set to `<Space>`, `<LocalLeader>` default set to `,`. For example, `<Space>``s``s` search the word under cursor. As shown below, key mapping is carefully-chosen.
+Default `<Leader>` is `<Space>`, `<LocalLeader>` is `,`. For example, `<Space>``s``s` search the word under cursor. As shown below, key mapping is carefully-chosen.
 
 ![Navim Key Mapping](http://taohex.github.io/navim/images/navim_key_mapping.png)
 
@@ -30,7 +31,7 @@ Key Mapping         | Description
 `<Left>`, `<Right>` | previous buffer, next buffer
 `<C-h>`, `<C-l>`    | move to window in the direction of hl
 `<C-j>`, `<C-k>`    | move to window in the direction of jk
-`<C-w>o`            | maximize or restore current window in split structure
+`<C-w>``o`          | maximize or restore current window in split structure
 `Q`                 | close windows and delete the buffer (if it is the last buffer window)
 
 ## Basic Installation
@@ -177,8 +178,6 @@ Check for `~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_client_support.so` a
 
 Download <https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_extra_conf.py> to your project directory
 
-this can be overridden with `g:navim_settings.completion_autoselect` and `g:navim_settings.completion_plugin`
-
 ## Plugins
 
 *	[denite.nvim](https://github.com/Shougo/denite.nvim)
@@ -188,11 +187,17 @@ this can be overridden with `g:navim_settings.completion_autoselect` and `g:navi
 *	[deoplete](https://github.com/Shougo/deoplete.nvim)
 *	[vimfiler.vim](https://github.com/Shougo/vimfiler.vim)
 *	[unimpaired](https://github.com/tpope/vim-unimpaired)
+*	[editorconfig](https://github.com/editorconfig/editorconfig-vim)
 *	...
 
 ## Fonts
 
 *	[font](https://github.com/taohex/font)
+
+## Coding Style
+
+[EditorConfig](http://editorconfig.org/) is supported.
+Create an `.editorconfig` in any parent directory for consistent coding styles.
 
 ## UI
 

@@ -318,10 +318,8 @@
     if dein#is_sourced('vim-buffergator') " {{{
 
       " buffergator
-      nnoremap <silent> <SID>buffer-preview-open :BuffergatorOpen<CR>
-      nmap <Leader>bp <SID>buffer-preview-open
-      nnoremap <silent> <SID>buffer-preview-close :BuffergatorClose<CR>
-      nmap <Leader>bP <SID>buffer-preview-close
+      nnoremap <silent> <SID>buffer-preview :BuffergatorOpen<CR>
+      nmap <Leader>bp <SID>buffer-preview
       nnoremap <silent> <M-b> :BuffergatorMruCyclePrev<CR>
       nnoremap <silent> <M-S-b> :BuffergatorMruCycleNext<CR>
       nnoremap <silent> [b :BuffergatorMruCyclePrev<CR>

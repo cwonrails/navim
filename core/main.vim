@@ -1,36 +1,19 @@
-" platform {{{
+" init {{{
 
-  let g:navim_platform_windows = has('win64') || has('win32')
-  let g:navim_platform_cygwin = has('win32unix')
-  let g:navim_platform_macvim = has('gui_macvim')
-  let g:navim_platform_neovim = has('nvim')
-  let g:path_separator = g:navim_platform_windows ? '\' : '/'
-
-  let maplocalleader = ','
-  let mapleader = ' '
-  let g:mapleader = ' '
-
-  if !exists('g:navim_settings')
-    let g:navim_settings = {}
-  endif
-
-  if g:navim_platform_windows
-    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~\AppData\Local\nvim')
-  else
-    let s:nvim_dir = get(g:navim_settings, 'nvim_dir', '~/.config/nvim')
-  endif
-  let s:cache_dir = s:nvim_dir . g:path_separator . '.cache'
+  let s:nvim_dir = get(g:navim_settings, 'nvim_dir',
+      \ fnamemodify(resolve(expand('<sfile>')), ':p:h:h'))
+  let s:cache_dir = s:nvim_dir . g:navim_path_separator . '.cache'
 
 "}}}
 
 " functions {{{
 
   function! NavimGetDir(suffix) "{{{
-    return resolve(expand(s:nvim_dir . g:path_separator . a:suffix))
+    return resolve(expand(s:nvim_dir . g:navim_path_separator . a:suffix))
   endfunction "}}}
 
   function! NavimGetCacheDir(suffix) "{{{
-    return resolve(expand(s:cache_dir . g:path_separator . a:suffix))
+    return resolve(expand(s:cache_dir . g:navim_path_separator . a:suffix))
   endfunction "}}}
 
   function! NavimOnDoneUpdate() "{{{
@@ -70,10 +53,10 @@
   endfunction "}}}
 
   function! s:SourceLayers(path) "{{{
-    for f in split(glob(a:path . g:path_separator . '*.vim'), '\n')
+    for f in split(glob(a:path . g:navim_path_separator . '*.vim'), '\n')
       let l:layer_name = fnamemodify(f, ':t:r')
       if count(g:navim_settings.layers, l:layer_name)
-        execute 'source' f
+        execute 'source ' . f
       endif
     endfor
   endfunction "}}}
@@ -134,9 +117,9 @@
   " excluded layers
   if exists('g:navim_settings.excluded_layers')
     for layer in g:navim_settings.excluded_layers
-      let i = index(g:navim_settings.layers, layer)
-      if i != -1
-        call remove(g:navim_settings.layers, i)
+      let s:i = index(g:navim_settings.layers, layer)
+      if s:i != -1
+        call remove(g:navim_settings.layers, s:i)
       endif
     endfor
   endif
@@ -162,10 +145,19 @@
     if g:navim_settings.completion_autoselect != 0 "{{{
       if g:navim_platform_neovim && has('python3')
         let g:navim_settings.completion_plugin = 'deoplete'
-      elseif (has('python3') || has('python')) &&
-          \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_core.so")) &&
-          \ filereadable(expand("~/.config/nvim/bundle/repos/github.com/Valloric/YouCompleteMe/third_party/ycmd/ycm_client_support.so"))
-        let g:navim_settings.completion_plugin = 'ycm'
+      elseif has('python3') || has('python')
+          let s:ycmd_path = NavimGetDir('bundle') . g:navim_path_separator .
+              \ 'repos' . g:navim_path_separator .
+              \ 'github.com' . g:navim_path_separator .
+              \ 'Valloric' . g:navim_path_separator .
+              \ 'YouCompleteMe' . g:navim_path_separator .
+              \ 'third_party' . g:navim_path_separator . 'ycmd'
+          if filereadable(expand(s:ycmd_path . g:navim_path_separator .
+              \ 'ycm_core.so')) &&
+              \ filereadable(expand(s:ycmd_path . g:navim_path_separator .
+              \ 'ycm_client_support.so'))
+            let g:navim_settings.completion_plugin = 'ycm'
+          endif
       elseif has('lua')
         let g:navim_settings.completion_plugin = 'neocomplete'
       else
@@ -196,16 +188,15 @@
 
   set nocompatible
   set all&  " reset everything to their defaults
-  if g:navim_platform_windows
-    set runtimepath+=~\AppData\Local\nvim\bundle\repos\github.com\Shougo\dein.vim
-    if g:navim_settings.syntaxcheck_plugin ==# 'ale'
-      set runtimepath+=~\AppData\Local\nvim\bundle\repos\github.com\w0rp\ale
-    endif
-  else
-    set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
-    if g:navim_settings.syntaxcheck_plugin ==# 'ale'
-      set runtimepath+=~/.config/nvim/bundle/repos/github.com/w0rp/ale
-    endif
+  let s:github_path = NavimGetDir('bundle') . g:navim_path_separator .
+      \ 'repos' . g:navim_path_separator . 'github.com'
+  let s:dein_path = s:github_path . g:navim_path_separator .
+      \ 'Shougo' . g:navim_path_separator . 'dein.vim'
+  let s:ale_path = s:github_path . g:navim_path_separator .
+      \ 'w0rp' . g:navim_path_separator . 'ale'
+  execute 'set runtimepath+=' . s:dein_path
+  if g:navim_settings.syntaxcheck_plugin ==# 'ale'
+    execute 'set runtimepath+=' . s:ale_path
   endif
 
   if !empty(g:navim_settings.bin_dir) &&
@@ -310,7 +301,9 @@
   set display+=lastline
   set wildmenu  "show list for autocomplete
   set wildmode=list:full
-  set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc,*.swp,*.swo,*.class,*.tags,tags,tags-*,cscope.*,*.taghl,.ropeproject/,__pycache__/,venv/,*.min.*,images/,img/,fonts/
+  set wildignore+=*~,*.o,core.*,*.exe,.git/,.hg/,.svn/,.DS_Store,*.pyc
+  set wildignore+=*.swp,*.swo,*.class,*.tags,tags,tags-*,cscope.*,*.taghl
+  set wildignore+=.ropeproject/,__pycache__/,venv/,*.min.*,images/,img/,fonts/
   set wildignorecase
 
   set splitbelow
@@ -768,19 +761,25 @@
 
 " load other scripts {{{
 
-  execute 'source ' . NavimGetDir('core') . g:path_separator . 'autocmds.vim'
-  execute 'source ' . NavimGetDir('core') . g:path_separator . 'commands.vim'
-  execute 'source ' . NavimGetDir('core') . g:path_separator . 'mappings.vim'
+  execute 'source ' . NavimGetDir('core') . g:navim_path_separator .
+      \ 'autocmds.vim'
+  execute 'source ' . NavimGetDir('core') . g:navim_path_separator .
+      \ 'commands.vim'
+  execute 'source ' . NavimGetDir('core') . g:navim_path_separator .
+      \ 'mappings.vim'
 
   if g:navim_settings.encoding ==# 'utf-8'
-    execute 'source ' . NavimGetDir('encoding') . g:path_separator .
+    execute 'source ' . NavimGetDir('encoding') . g:navim_path_separator .
         \ 'utf-8.vim'
   elseif g:navim_settings.encoding ==# 'gbk'
-    execute 'source ' . NavimGetDir('encoding') . g:path_separator . 'gbk.vim'
+    execute 'source ' . NavimGetDir('encoding') . g:navim_path_separator .
+        \ 'gbk.vim'
   else
-    execute 'source ' . NavimGetDir('encoding') . g:path_separator .
+    execute 'source ' . NavimGetDir('encoding') . g:navim_path_separator .
         \ 'latin1.vim'
   endif
+
+  execute 'helptags ' .  NavimGetDir('doc')
 
 "}}}
 

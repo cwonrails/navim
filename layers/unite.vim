@@ -186,15 +186,15 @@ call dein#add('Shougo/neomru.vim', {
     \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
   " need to execute the `:UpdateRemotePlugins` and restart for the first time
   let g:neomru#file_mru_path = NavimGetCacheDir('neomru') .
-      \ g:path_separator . 'file'
+      \ g:navim_path_separator . 'file'
   let g:neomru#directory_mru_path = NavimGetCacheDir('neomru') .
-      \ g:path_separator . 'directory'
+      \ g:navim_path_separator . 'directory'
 "}}}
 call dein#add('Shougo/neoyank.vim', {
     \ 'hook_done_update': function('NavimOnDoneUpdate')}) "{{{
   " need to execute the `:UpdateRemotePlugins` and restart for the first time
   let g:neoyank#file = NavimGetCacheDir('neoyank') .
-      \ g:path_separator . 'history_yank'
+      \ g:navim_path_separator . 'history_yank'
 "}}}
 
 
