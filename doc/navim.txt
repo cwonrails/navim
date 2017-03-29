@@ -19,6 +19,7 @@ Advanced Installation		|navim-advanced-installation|
   macOS				|navim-macos|
 Plugins				|navim-plugins|
 Fonts				|navim-fonts|
+Tags				|navim-tags|
 UI				|navim-ui|
 Configuration Examples		|navim-examples|
 FAQ				|navim-faq|
@@ -290,7 +291,7 @@ Try this if quick compile does not work
 	git submodule update --init --recursive
 <
 
-Download clang from <http://llvm.org/releases/download.html> to "~/local/src/"
+Download clang from "http://llvm.org/releases/download.html" to "~/local/src/"
 and compile ycm_support_libs
 
 >
@@ -331,6 +332,38 @@ editorconfig			https://github.com/editorconfig/editorconfig-vim
 FONTS						*navim-fonts*
 
 font				https://github.com/taohex/font
+
+
+==============================================================================
+TAGS						*navim-tags*
+
+"~/.config/nvim/tags/*.tags" will be auto added.
+
+Build from LLVM ("http://releases.llvm.org/download.html")
+
+>
+	tar xf libcxx.src.tar.xz
+	cp -R libcxx/include ~/.config/nvim/tags/libcxx
+	ctags -f libcxx.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _NOEXCEPT libcxx
+<
+
+Build from GCC ("https://gcc.gnu.org/mirrors.html")
+
+>
+	cp -R gcc/libstdc++-v3/include ~/.config/nvim/tags/libstdcpp
+	find libstdcpp -type f -print0 | xargs -0 sed -i '' 's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
+	ctags -f libstdcpp.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _GLIBCXX_NOEXCEPT libstdcpp
+<
+
+Build from system or Modified Headers ("http://www.vim.org/scripts/script.php?script_id=2358")
+
+>
+	cp -R /usr/include/c++/$GCC_VERSION ~/.config/nvim/tags/old_libstdcpp
+	# it is not necessary to rename headers without an extension
+	# replace the "namespace std _GLIBCXX_VISIBILITY(default)" with "namespace std"
+	find old_libstdcpp -type f -print0 | xargs -0 sed -i '' 's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
+	ctags -f old_libstdcpp.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _GLIBCXX_NOEXCEPT old_libstdcpp
+<
 
 
 ==============================================================================

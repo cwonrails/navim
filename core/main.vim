@@ -25,11 +25,11 @@
   endfunction "}}}
 
   function! NavimPreserve(command) "{{{
-    " preparation: save last search, and cursor position.
+    " preparation: save last search and cursor position
     let _s = @/
     let l = line(".")
     let c = col(".")
-    " do the business:
+    " do the business
     execute a:command
     " clean up: restore previous search history, and cursor position
     let @/ = _s
@@ -53,11 +53,17 @@
   endfunction "}}}
 
   function! s:SourceLayers(path) "{{{
-    for f in split(glob(a:path . g:navim_path_separator . '*.vim'), '\n')
+    for f in split(glob(a:path . g:navim_path_separator . '*.nvim\|*.vim'), '\n')
       let l:layer_name = fnamemodify(f, ':t:r')
       if count(g:navim_settings.layers, l:layer_name)
         execute 'source ' . f
       endif
+    endfor
+  endfunction "}}}
+
+  function! s:AddTags(path) "{{{
+    for f in split(glob(a:path . g:navim_path_separator . '*.tags'), '\n')
+      execute 'set tags+=' . f
     endfor
   endfunction "}}}
 
@@ -146,18 +152,18 @@
       if g:navim_platform_neovim && has('python3')
         let g:navim_settings.completion_plugin = 'deoplete'
       elseif has('python3') || has('python')
-          let s:ycmd_path = NavimGetDir('bundle') . g:navim_path_separator .
-              \ 'repos' . g:navim_path_separator .
-              \ 'github.com' . g:navim_path_separator .
-              \ 'Valloric' . g:navim_path_separator .
-              \ 'YouCompleteMe' . g:navim_path_separator .
-              \ 'third_party' . g:navim_path_separator . 'ycmd'
-          if filereadable(expand(s:ycmd_path . g:navim_path_separator .
-              \ 'ycm_core.so')) &&
-              \ filereadable(expand(s:ycmd_path . g:navim_path_separator .
-              \ 'ycm_client_support.so'))
-            let g:navim_settings.completion_plugin = 'ycm'
-          endif
+        let s:ycmd_path = NavimGetDir('bundle') . g:navim_path_separator .
+            \ 'repos' . g:navim_path_separator .
+            \ 'github.com' . g:navim_path_separator .
+            \ 'Valloric' . g:navim_path_separator .
+            \ 'YouCompleteMe' . g:navim_path_separator .
+            \ 'third_party' . g:navim_path_separator . 'ycmd'
+        if filereadable(expand(s:ycmd_path . g:navim_path_separator .
+            \ 'ycm_core.so')) &&
+            \ filereadable(expand(s:ycmd_path . g:navim_path_separator .
+            \ 'ycm_client_support.so'))
+          let g:navim_settings.completion_plugin = 'ycm'
+        endif
       elseif has('lua')
         let g:navim_settings.completion_plugin = 'neocomplete'
       else
@@ -258,7 +264,13 @@
   set fileformats+=mac  " add mac to auto-detection of file format line endings
   set nrformats-=octal  " always assume decimal numbers
   set showcmd
-  set tags=tags;/
+
+  " tags
+  set tags=./tags,tags
+
+  " add all tags, which should be done before set wildignore
+  call s:AddTags(NavimGetDir('tags'))
+
   set showfulltag
   set modeline
   set modelines=5

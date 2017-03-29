@@ -12,6 +12,8 @@ A full-blown IDE based on Neovim (or Vim) with better navigation.
 - [Advanced Installation](#advanced-installation)
 - [Plugins](#plugins)
 - [Fonts](#fonts)
+- [Coding Style](#coding-style)
+- [Tags](#tags)
 - [UI](#ui)
 - [Credits](#credits)
 - [License](#license)
@@ -198,6 +200,12 @@ Download <https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_ex
 
 [EditorConfig](http://editorconfig.org/) is supported.
 Create an `.editorconfig` in any parent directory for consistent coding styles.
+
+## Tags
+
+`~/.config/nvim/tags/*.tags` will be auto added.
+
+[Tags (`:h navim-tags`)](https://github.com/taohex/navim/blob/master/doc/navim.txt#L338)
 
 ## UI
 
