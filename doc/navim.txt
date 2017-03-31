@@ -1,6 +1,6 @@
 *navim.txt*	A full-blown IDE based on Neovim (or Vim) with better navigation.
 
-Version: 1.0.2
+Version: 1.0.3
 Author:  taohe <taohex@gmail.com>
 License: MIT license
 
@@ -20,8 +20,7 @@ Advanced Installation		|navim-advanced-installation|
 Plugins				|navim-plugins|
 Fonts				|navim-fonts|
 Tags				|navim-tags|
-UI				|navim-ui|
-Configuration Examples		|navim-examples|
+Coding Style			|navim-coding-style|
 FAQ				|navim-faq|
 Compatibility			|navim-compatibility|
 
@@ -268,7 +267,7 @@ Install GLOBAL
 	brew install global
 <
 
-						*navim-macos-quick-compile-youcompleteme*
+						*navim-macos-quick-compile-ycm*
 Quick Compile YouCompleteMe
 
 >
@@ -279,7 +278,7 @@ Quick Compile YouCompleteMe
 Check for "~/.config/nvim/bundle/YouCompleteMe/third_party/ycmd/ycm_client_support.so"
 and "~/.config/nvim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so", done
 
-						*navim-macos-full-compile-youcompleteme*
+						*navim-macos-full-compile-ycm*
 Full Compile YouCompleteMe
 
 Try this if quick compile does not work
@@ -307,7 +306,7 @@ and compile ycm_support_libs
 Check for "~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_client_support.so"
 and "~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so", done
 
-						*navim-macos-project-configuration*
+						*navim-macos-project-config*
 Project Configuration
 
 Download "https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_extra_conf.py"
@@ -372,4 +371,18 @@ CODING STYLE					*navim-coding-style*
 EditorConfig is supported.
 Create an `.editorconfig` in any parent directory for consistent coding styles.
 Reference "http://editorconfig.org/".
+
+
+==============================================================================
+FAQ						*navim-faq*
+
+
+==============================================================================
+COMPATIBILITY					*navim-compatibility*
+
+macOS: Neovim or MacVim 8.
+linux: Neovim or Vim 8.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
 

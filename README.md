@@ -26,7 +26,7 @@ Default `<Leader>` is `<Space>`, `<LocalLeader>` is `,`. For example, `<Space>``
 
 ![Navim Key Mapping](http://taohex.github.io/navim/images/navim_key_mapping.png)
 
-More key mapping is listed here.
+More key mapping is listed here:
 
 Key Mapping         | Description
 --------------------|------------------------------------------------------------
@@ -209,10 +209,16 @@ Create an `.editorconfig` in any parent directory for consistent coding styles.
 
 ## UI
 
+more commands of UI:
+
 Command            | Description
 -------------------|------------------------------------------------------------
 `XtermColorTable`  | show color table
 `syntax`           | show syntax highlight
+
+## Help
+
+[Help (`:h navim`)](https://github.com/taohex/navim/blob/master/doc/navim.txt)
 
 ## Credits
 
