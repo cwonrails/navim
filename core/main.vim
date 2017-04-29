@@ -87,7 +87,7 @@
   call s:InsertIfNotExists(g:navim_settings, 'fonts_plugin', 'none')
 
   " user interface
-  call s:InsertIfNotExists(g:navim_settings, 'colorscheme', 'solarized')
+  call s:InsertIfNotExists(g:navim_settings, 'colorscheme', 'jellybeans')
   call s:InsertIfNotExists(g:navim_settings, 'force256', 0)
   call s:InsertIfNotExists(g:navim_settings, 'termtrans', 0)
   call s:InsertIfNotExists(g:navim_settings, 'enable_cursorcolumn', 0)
@@ -431,7 +431,7 @@
 " layers configuration {{{
 
   if count(g:navim_settings.layers, 'core') "{{{
-    call dein#add('hecal3/vim-leader-guide')
+    call dein#add('taohex/vim-leader-guide')
     call dein#add('matchit.zip')
     if g:navim_settings.statusline_plugin ==# 'airline' "{{{
       "if g:navim_settings.encoding ==# 'utf-8' &&

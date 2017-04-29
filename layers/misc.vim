@@ -37,7 +37,7 @@ call dein#add('mhinz/vim-startify') "{{{
   let g:startify_show_sessions = 1
 
   let g:startify_custom_header = [
-      \ ' Navim by taohe',
+      \ ' Navim',
       \ '',
       \ ' <Space>ff   go to files',
       \ ' <Space>bb   select from buffers',

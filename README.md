@@ -11,10 +11,8 @@ A full-blown IDE based on Neovim (or Vim) with better navigation.
 - [Advanced Settings](#advanced-settings)
 - [Advanced Installation](#advanced-installation)
 - [Plugins](#plugins)
-- [Fonts](#fonts)
 - [Coding Style](#coding-style)
 - [Tags](#tags)
-- [UI](#ui)
 - [Credits](#credits)
 - [License](#license)
 
@@ -26,14 +24,14 @@ Default `<Leader>` is `<Space>`, `<LocalLeader>` is `,`. For example, `<Space>``
 
 ![Navim Key Mapping](http://taohex.github.io/navim/images/navim_key_mapping.png)
 
-More key mapping is listed here:
+Most of key mapping is [denite](https://github.com/Shougo/denite.nvim) centric. More key mapping is listed here:
 
 Key Mapping         | Description
 --------------------|------------------------------------------------------------
 `<Left>`, `<Right>` | previous buffer, next buffer
 `<C-h>`, `<C-l>`    | move to window in the direction of hl
 `<C-j>`, `<C-k>`    | move to window in the direction of jk
-`<C-w>``o`          | maximize or restore current window in split structure
+`<C-w>o`            | maximize or restore current window in split structure
 `Q`                 | close windows and delete the buffer (if it is the last buffer window)
 
 ## Basic Installation
@@ -192,10 +190,6 @@ Download <https://raw.githubusercontent.com/Valloric/ycmd/master/cpp/ycm/.ycm_ex
 *	[editorconfig](https://github.com/editorconfig/editorconfig-vim)
 *	...
 
-## Fonts
-
-*	[font](https://github.com/taohex/font)
-
 ## Coding Style
 
 [EditorConfig](http://editorconfig.org/) is supported.
@@ -206,15 +200,6 @@ Create an `.editorconfig` in any parent directory for consistent coding styles.
 `~/.config/nvim/tags/*.tags` will be auto added.
 
 [Tags (`:h navim-tags`)](https://github.com/taohex/navim/blob/master/doc/navim.txt#L338)
-
-## UI
-
-more commands of UI:
-
-Command            | Description
--------------------|------------------------------------------------------------
-`XtermColorTable`  | show color table
-`syntax`           | show syntax highlight
 
 ## Help
 

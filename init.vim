@@ -45,6 +45,8 @@
     finish
   endif
 
+  "execute 'set runtimepath+=' . fnamemodify(resolve(expand('<sfile>')), ':p:h') .
+  "    \ g:navim_path_separator . 'core'
   execute 'source ' . fnamemodify(resolve(expand('<sfile>')), ':p:h') .
       \ g:navim_path_separator . 'core' . g:navim_path_separator . 'main.vim'
 

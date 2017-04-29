@@ -1,6 +1,6 @@
 *navim.txt*	A full-blown IDE based on Neovim (or Vim) with better navigation.
 
-Version: 1.0.3
+Version: 1.0.4
 Author:  taohe <taohex@gmail.com>
 License: MIT license
 
@@ -299,7 +299,9 @@ and compile ycm_support_libs
 	tar xf clang+llvm-3.6.0-x86_64-apple-darwin.tar.xz
 	mkdir -p ~/local/src/ycm_build/
 	cd ~/local/src/ycm_build/
-	cmake -G "Unix Makefiles" -DPATH_TO_LLVM_ROOT=~/local/src/clang+llvm-3.6.0-x86_64-apple-darwin . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
+	cmake -G "Unix Makefiles" \
+	    -DPATH_TO_LLVM_ROOT=~/local/src/clang+llvm-3.6.0-x86_64-apple-darwin \
+	    . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
 	make ycm_support_libs
 <
 
@@ -330,7 +332,11 @@ editorconfig			https://github.com/editorconfig/editorconfig-vim
 ==============================================================================
 FONTS						*navim-fonts*
 
-font				https://github.com/taohex/font
+If 'g:navim_settings.powerline_fonts' or 'g:navim_settings.nerd_fonts' is 1,
+you need to configure your terminal font from one of the following repos:
+
+taohex's font			https://github.com/taohex/font
+ryanoasis's font		https://github.com/ryanoasis/nerd-fonts
 
 
 ==============================================================================
@@ -343,15 +349,18 @@ Build from LLVM ("http://releases.llvm.org/download.html")
 >
 	tar xf libcxx.src.tar.xz
 	cp -R libcxx/include ~/.config/nvim/tags/libcxx
-	ctags -f libcxx.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _NOEXCEPT libcxx
+	ctags -f libcxx.tags -R --c++-kinds=+p --fields=+iaS --extra=+q \
+	    --language-force=C++ --sort=foldcase -I _NOEXCEPT libcxx
 <
 
 Build from GCC ("https://gcc.gnu.org/mirrors.html")
 
 >
 	cp -R gcc/libstdc++-v3/include ~/.config/nvim/tags/libstdcpp
-	find libstdcpp -type f -print0 | xargs -0 sed -i '' 's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
-	ctags -f libstdcpp.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _GLIBCXX_NOEXCEPT libstdcpp
+	find libstdcpp -type f -print0 | xargs -0 sed -i '' \
+	    's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
+	ctags -f libstdcpp.tags -R --c++-kinds=+p --fields=+iaS --extra=+q \
+	    --language-force=C++ --sort=foldcase -I _GLIBCXX_NOEXCEPT libstdcpp
 <
 
 Build from system or Modified Headers ("http://www.vim.org/scripts/script.php?script_id=2358")
@@ -359,9 +368,13 @@ Build from system or Modified Headers ("http://www.vim.org/scripts/script.php?sc
 >
 	cp -R /usr/include/c++/$GCC_VERSION ~/.config/nvim/tags/old_libstdcpp
 	# it is not necessary to rename headers without an extension
-	# replace the "namespace std _GLIBCXX_VISIBILITY(default)" with "namespace std"
-	find old_libstdcpp -type f -print0 | xargs -0 sed -i '' 's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
-	ctags -f old_libstdcpp.tags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ --sort=foldcase -I _GLIBCXX_NOEXCEPT old_libstdcpp
+	# replace the "namespace std _GLIBCXX_VISIBILITY(default)"
+	# with "namespace std"
+	find old_libstdcpp -type f -print0 | xargs -0 sed -i '' \
+	    's/namespace std _GLIBCXX_VISIBILITY(default)/namespace std/g'
+	ctags -f old_libstdcpp.tags -R --c++-kinds=+p --fields=+iaS \
+	    --extra=+q --language-force=C++ --sort=foldcase \
+	    -I _GLIBCXX_NOEXCEPT old_libstdcpp
 <
 
 
