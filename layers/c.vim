@@ -2,10 +2,10 @@
 
 "}}}
 
-call dein#add('a.vim', {'on_ft': ['c','cpp']})
-call dein#add('c.vim', {'on_ft': ['c','cpp']})
-call dein#add('echofunc.vim', {'on_ft': ['c','cpp']})
-call dein#add('STL-improved', {'on_ft': ['c','cpp']})
+call dein#add('vim-scripts/a.vim', {'on_ft': ['c','cpp']})
+call dein#add('vim-scripts/c.vim', {'on_ft': ['c','cpp']})
+call dein#add('vim-scripts/echofunc.vim', {'on_ft': ['c','cpp']})
+call dein#add('vim-scripts/STL-improved', {'on_ft': ['c','cpp']})
 call dein#add('octol/vim-cpp-enhanced-highlight', {'on_ft': ['c','cpp']})
 
 

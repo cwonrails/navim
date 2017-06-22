@@ -12,7 +12,7 @@ call dein#add('mbbill/undotree', {'on_cmd': 'UndotreeToggle'}) "{{{
   let g:undotree_WindowLayout = 2
   let g:undotree_SetFocusWhenToggle = 1
 "}}}
-call dein#add('EasyGrep', {'on_cmd': 'GrepOptions'}) "{{{
+call dein#add('vim-scripts/EasyGrep', {'on_cmd': 'GrepOptions'}) "{{{
   let g:EasyGrepRecursive = 1
   let g:EasyGrepAllOptionsInExplorer = 1
   let g:EasyGrepCommand = 1

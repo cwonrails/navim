@@ -432,7 +432,6 @@
 
   if count(g:navim_settings.layers, 'core') "{{{
     call dein#add('taohex/vim-leader-guide')
-    call dein#add('matchit.zip')
     if g:navim_settings.statusline_plugin ==# 'airline' "{{{
       "if g:navim_settings.encoding ==# 'utf-8' &&
       "    \ has('multi_byte') && has('unix') && &encoding ==# 'utf-8' &&
