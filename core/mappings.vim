@@ -135,7 +135,7 @@
     elseif a:direction ==# 'directory'
       call s:WriteCmdLine("vimgrep " . '/' . l:pattern . '/j' . ' **/*')
     elseif a:direction ==# 'replace'
-      call s:WriteCmdLine("%s" . '/' . l:pattern . '/' . l:pattern)
+      call s:WriteCmdLine("%s" . '/' . l:pattern . '/' . l:pattern . '/g')
     endif
 
     let @/ = l:pattern
@@ -476,7 +476,7 @@
     nmap <Leader>sl <SID>grep-last
 
     " replace specific content
-    nnoremap <SID>replace-in-file :%s/\<<C-r>=expand("<cword>")<CR>\>/<C-r>=expand("<cword>")<CR>
+    nnoremap <SID>replace-in-file :%s/\<<C-r>=expand("<cword>")<CR>\>/<C-r>=expand("<cword>")<CR>/g<Left><Left>
     nmap <Leader>sr <SID>replace-in-file
 
     " replace the selected text
