@@ -29,6 +29,7 @@ function! BeforeAll()
 
   " disabled plugins
   let g:navim_settings.disabled_plugins = [
+      \ 'google.vim',
       \ 'junkfile.vim',
       \ 'unite-airline_themes',
       \ 'unite-colorscheme',
